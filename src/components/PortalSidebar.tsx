@@ -7,18 +7,22 @@ import {
 import { cn } from '@/lib/utils';
 import { partnerInfo } from '@/data/mockData';
 
-const navItems = [
-  { label: 'CORE', type: 'section' as const },
+type NavSection = { label: string; type: 'section' };
+type NavItem = { to: string; icon: React.ComponentType<{ size?: number; className?: string }>; label: string; badge?: string };
+type NavEntry = NavSection | NavItem;
+
+const navItems: NavEntry[] = [
+  { label: 'CORE', type: 'section' },
   { to: '/partner/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { to: '/partner/projects', icon: FolderKanban, label: 'Projects', badge: '14' },
   { to: '/partner/nodes', icon: Server, label: 'Node Management' },
-  { label: 'OPERATIONS', type: 'section' as const },
+  { label: 'OPERATIONS', type: 'section' },
   { to: '/partner/monitoring', icon: Activity, label: 'O&M Monitoring' },
   { to: '/partner/rewards', icon: Coins, label: 'Rewards', badge: 'NEW' },
-  { label: 'NETWORK', type: 'section' as const },
+  { label: 'NETWORK', type: 'section' },
   { to: '/partner/territory-map', icon: Globe2, label: 'Territory Map' },
   { to: '/partner/territories', icon: ClipboardList, label: 'Territory Registry' },
-  { label: 'ADMIN', type: 'section' as const },
+  { label: 'ADMIN', type: 'section' },
   { to: '/partner/documents', icon: FileText, label: 'Documents' },
   { to: '/partner/governance', icon: BarChart3, label: 'Governance' },
   { to: '/partner/settings', icon: Settings, label: 'Settings' },
