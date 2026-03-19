@@ -54,8 +54,8 @@ export default function OnboardingSidebar() {
           const isActive = location.pathname === navItem.to;
           return (
             <RouterNavLink
-              key={item.to}
-              to={item.to!}
+              key={navItem.to}
+              to={navItem.to}
               className={cn(
                 "flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] transition-colors duration-150",
                 isActive
@@ -63,16 +63,16 @@ export default function OnboardingSidebar() {
                   : "text-muted-foreground hover:text-foreground hover:bg-surface-2"
               )}
             >
-              {item.icon && <item.icon size={14} className={isActive ? 'text-primary' : ''} />}
-              <span className="truncate">{item.label}</span>
-              {item.badge && (
+              <navItem.icon size={14} className={isActive ? 'text-primary' : ''} />
+              <span className="truncate">{navItem.label}</span>
+              {navItem.badge && (
                 <span className={cn(
                   "ml-auto text-[10px] px-1.5 py-0.5 rounded-md font-mono",
-                  item.badge === 'NEW'
+                  navItem.badge === 'NEW'
                     ? "bg-accent-soft text-primary"
                     : "bg-surface-3 text-muted-foreground"
                 )}>
-                  {item.badge}
+                  {navItem.badge}
                 </span>
               )}
             </RouterNavLink>

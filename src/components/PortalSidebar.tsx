@@ -52,14 +52,15 @@ export default function PortalSidebar() {
       {/* Nav */}
       <nav className="flex-1 px-2 py-3 space-y-0.5 overflow-y-auto">
         {navItems.map((item, i) => {
-          if (item.type === 'section') {
+          if ('type' in item) {
             return <p key={i} className="section-label px-3 pt-4 pb-1.5">{item.label}</p>;
           }
-          const isActive = location.pathname === item.to || location.pathname.startsWith(item.to! + '/');
+          const navItem = item as NavItem;
+          const isActive = location.pathname === navItem.to || location.pathname.startsWith(navItem.to + '/');
           return (
             <RouterNavLink
-              key={item.to}
-              to={item.to!}
+              key={navItem.to}
+              to={navItem.to}
               className={cn(
                 "flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] transition-colors duration-150",
                 isActive
@@ -67,16 +68,16 @@ export default function PortalSidebar() {
                   : "text-muted-foreground hover:text-foreground hover:bg-surface-2"
               )}
             >
-              {item.icon && <item.icon size={16} className={isActive ? 'text-primary' : ''} />}
-              <span className="truncate">{item.label}</span>
-              {item.badge && (
+              <navItem.icon size={16} className={isActive ? 'text-primary' : ''} />
+              <span className="truncate">{navItem.label}</span>
+              {navItem.badge && (
                 <span className={cn(
                   "ml-auto text-[10px] px-1.5 py-0.5 rounded-md font-mono",
-                  item.badge === 'NEW'
+                  navItem.badge === 'NEW'
                     ? "bg-accent-soft text-primary"
                     : "bg-surface-3 text-muted-foreground"
                 )}>
-                  {item.badge}
+                  {navItem.badge}
                 </span>
               )}
             </RouterNavLink>
