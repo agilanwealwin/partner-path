@@ -1,14 +1,15 @@
 import React from 'react';
 import { NavLink as RouterNavLink, useLocation } from 'react-router-dom';
+import type { LucideIcon } from 'lucide-react';
 import {
   LayoutDashboard, FolderKanban, Server, Activity, Coins,
-  Globe2, ClipboardList, FileText, BarChart3, Settings, Bell
+  Globe2, ClipboardList, FileText, BarChart3, Settings
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { partnerInfo } from '@/data/mockData';
 
 type NavSection = { label: string; type: 'section' };
-type NavItem = { to: string; icon: React.ComponentType<{ size?: number; className?: string }>; label: string; badge?: string };
+type NavItem = { to: string; icon: LucideIcon; label: string; badge?: string };
 type NavEntry = NavSection | NavItem;
 
 const navItems: NavEntry[] = [

@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink as RouterNavLink, useLocation } from 'react-router-dom';
+import type { LucideIcon } from 'lucide-react';
 import {
   Home, FileText, ClipboardList, CheckCircle2, Globe2, Map,
   BarChart3, LifeBuoy
@@ -7,7 +8,7 @@ import {
 import { cn } from '@/lib/utils';
 
 type NavSection = { label: string; type: 'section' };
-type NavItem = { to: string; icon: React.ComponentType<{ size?: number; className?: string }>; label: string; badge?: string };
+type NavItem = { to: string; icon: LucideIcon; label: string; badge?: string };
 type NavEntry = NavSection | NavItem;
 
 const navItems: NavEntry[] = [
