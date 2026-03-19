@@ -1,14 +1,15 @@
 import React from 'react';
+import type { LucideIcon } from 'lucide-react';
 import {
   FolderKanban, Zap, Radio, Activity, Coins, TrendingUp, TrendingDown,
   SlidersHorizontal, Plus, Sun, Wind, CheckCircle2, AlertTriangle,
-  Clock, Eye, Server
+  Clock, Eye
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { projects, partnerInfo, type Project } from '@/data/mockData';
 import { cn } from '@/lib/utils';
 
-const projectStatusConfig: Record<string, { textClass: string; bgClass: string; icon: React.ComponentType<{ size?: number; className?: string }> }> = {
+const projectStatusConfig: Record<string, { textClass: string; bgClass: string; icon: LucideIcon }> = {
   Live: { textClass: 'text-status-green', bgClass: 'bg-green-soft', icon: CheckCircle2 },
   'EPC Phase': { textClass: 'text-primary', bgClass: 'bg-accent-soft', icon: Clock },
   Commissioning: { textClass: 'text-primary', bgClass: 'bg-accent-soft', icon: Clock },
