@@ -6,16 +6,20 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const navItems = [
-  { label: 'ONBOARDING FLOW', type: 'section' as const },
+type NavSection = { label: string; type: 'section' };
+type NavItem = { to: string; icon: React.ComponentType<{ size?: number; className?: string }>; label: string; badge?: string };
+type NavEntry = NavSection | NavItem;
+
+const navItems: NavEntry[] = [
+  { label: 'ONBOARDING FLOW', type: 'section' },
   { to: '/onboarding/infra-partner/welcome', icon: Home, label: 'Welcome & Tiers' },
   { to: '/onboarding/infra-partner/documents', icon: FileText, label: 'Documents Upload', badge: '18' },
   { to: '/onboarding/infra-partner/pre-qualification', icon: ClipboardList, label: 'Pre-Qualification' },
   { to: '/onboarding/infra-partner/status', icon: CheckCircle2, label: 'Application Status' },
-  { label: 'NETWORK', type: 'section' as const },
+  { label: 'NETWORK', type: 'section' },
   { to: '/onboarding/infra-partner/territories', icon: Globe2, label: 'Territory Registry', badge: 'NEW' },
   { to: '/onboarding/infra-partner/territory-map', icon: Map, label: 'Territory Map' },
-  { label: 'REFERENCE', type: 'section' as const },
+  { label: 'REFERENCE', type: 'section' },
   { to: '/onboarding/infra-partner/scoring', icon: BarChart3, label: 'Scoring Framework' },
   { to: '/onboarding/infra-partner/support', icon: LifeBuoy, label: 'Protocol Support' },
 ];
