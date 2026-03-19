@@ -7,7 +7,24 @@ import OnboardingLayout from "@/layouts/OnboardingLayout";
 import PortalLayout from "@/layouts/PortalLayout";
 import WelcomePage from "@/pages/onboarding/WelcomePage";
 import TerritoryRegistryPage from "@/pages/onboarding/TerritoryRegistryPage";
+import DocumentsUploadPage from "@/pages/onboarding/DocumentsUploadPage";
+import PreQualificationPage from "@/pages/onboarding/PreQualificationPage";
+import ApplicationStatusPage from "@/pages/onboarding/ApplicationStatusPage";
+import TerritoryMapPage from "@/pages/onboarding/TerritoryMapPage";
+import TerritoryDetailPage from "@/pages/onboarding/TerritoryDetailPage";
 import DashboardPage from "@/pages/partner/DashboardPage";
+import ProjectsListPage from "@/pages/partner/ProjectsListPage";
+import ProjectDetailPage from "@/pages/partner/ProjectDetailPage";
+import NodeManagementPage from "@/pages/partner/NodeManagementPage";
+import MonitoringPage from "@/pages/partner/MonitoringPage";
+import RewardsPage from "@/pages/partner/RewardsPage";
+import GovernancePage from "@/pages/partner/GovernancePage";
+import DocumentsPage from "@/pages/partner/DocumentsPage";
+import SettingsPage from "@/pages/partner/SettingsPage";
+import MyRequestsPage from "@/pages/partner/MyRequestsPage";
+import SupportPage from "@/pages/partner/SupportPage";
+import NotificationsPage from "@/pages/partner/NotificationsPage";
+import TeamPage from "@/pages/partner/TeamPage";
 import PlaceholderPage from "@/pages/PlaceholderPage";
 import NotFound from "./pages/NotFound";
 
@@ -26,11 +43,12 @@ const App = () => (
           <Route path="/onboarding/infra-partner" element={<OnboardingLayout />}>
             <Route index element={<Navigate to="welcome" replace />} />
             <Route path="welcome" element={<WelcomePage />} />
-            <Route path="documents" element={<PlaceholderPage title="Document Upload" />} />
-            <Route path="pre-qualification" element={<PlaceholderPage title="Pre-Qualification Assessment" />} />
-            <Route path="status" element={<PlaceholderPage title="Application Status" />} />
+            <Route path="documents" element={<DocumentsUploadPage />} />
+            <Route path="pre-qualification" element={<PreQualificationPage />} />
+            <Route path="status" element={<ApplicationStatusPage />} />
             <Route path="territories" element={<TerritoryRegistryPage />} />
-            <Route path="territory-map" element={<PlaceholderPage title="Territory Map" />} />
+            <Route path="territories/:id" element={<TerritoryDetailPage />} />
+            <Route path="territory-map" element={<TerritoryMapPage />} />
             <Route path="scoring" element={<PlaceholderPage title="Scoring Framework" />} />
             <Route path="support" element={<PlaceholderPage title="Protocol Support" />} />
           </Route>
@@ -39,15 +57,21 @@ const App = () => (
           <Route path="/partner" element={<PortalLayout />}>
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<DashboardPage />} />
-            <Route path="projects" element={<PlaceholderPage title="Projects" />} />
-            <Route path="nodes" element={<PlaceholderPage title="Node Management" />} />
-            <Route path="monitoring" element={<PlaceholderPage title="O&M Monitoring" />} />
-            <Route path="rewards" element={<PlaceholderPage title="Rewards" />} />
-            <Route path="territory-map" element={<PlaceholderPage title="Territory Map" />} />
+            <Route path="projects" element={<ProjectsListPage />} />
+            <Route path="projects/:id" element={<ProjectDetailPage />} />
+            <Route path="nodes" element={<NodeManagementPage />} />
+            <Route path="monitoring" element={<MonitoringPage />} />
+            <Route path="rewards" element={<RewardsPage />} />
+            <Route path="territory-map" element={<TerritoryMapPage />} />
             <Route path="territories" element={<TerritoryRegistryPage />} />
-            <Route path="documents" element={<PlaceholderPage title="Documents" />} />
-            <Route path="governance" element={<PlaceholderPage title="Governance" />} />
-            <Route path="settings" element={<PlaceholderPage title="Settings" />} />
+            <Route path="territories/my-requests" element={<MyRequestsPage />} />
+            <Route path="territories/:id" element={<TerritoryDetailPage />} />
+            <Route path="documents" element={<DocumentsPage />} />
+            <Route path="governance" element={<GovernancePage />} />
+            <Route path="settings" element={<SettingsPage />} />
+            <Route path="team" element={<TeamPage />} />
+            <Route path="notifications" element={<NotificationsPage />} />
+            <Route path="support" element={<SupportPage />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />
