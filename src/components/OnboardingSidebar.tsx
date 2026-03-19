@@ -45,12 +45,13 @@ export default function OnboardingSidebar() {
       {/* Nav */}
       <nav className="flex-1 px-2 py-3 space-y-0.5 overflow-y-auto">
         {navItems.map((item, i) => {
-          if (item.type === 'section') {
+          if ('type' in item && item.type === 'section') {
             return (
               <p key={i} className="section-label px-3 pt-4 pb-1.5">{item.label}</p>
             );
           }
-          const isActive = location.pathname === item.to;
+          const navItem = item as NavItem;
+          const isActive = location.pathname === navItem.to;
           return (
             <RouterNavLink
               key={item.to}
