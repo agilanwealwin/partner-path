@@ -3,20 +3,22 @@ import { NavLink as RouterNavLink, useLocation } from 'react-router-dom';
 import type { LucideIcon } from 'lucide-react';
 import {
   Home, FileText, ClipboardList, CheckCircle2, Globe2, Map,
-  BarChart3, LifeBuoy
+  BarChart3, LifeBuoy, Clock, Lock
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useOnboarding } from '@/hooks/use-onboarding';
+import { ThemeToggle } from './ThemeToggle';
 
 type NavSection = { label: string; type: 'section' };
-type NavItem = { to: string; icon: LucideIcon; label: string; badge?: string };
+type NavItem = { to: string; icon: LucideIcon; label: string; badge?: string; id?: string };
 type NavEntry = NavSection | NavItem;
 
 const navItems: NavEntry[] = [
   { label: 'ONBOARDING FLOW', type: 'section' },
-  { to: '/onboarding/infra-partner/welcome', icon: Home, label: 'Welcome & Tiers' },
-  { to: '/onboarding/infra-partner/documents', icon: FileText, label: 'Documents Upload', badge: '18' },
-  { to: '/onboarding/infra-partner/pre-qualification', icon: ClipboardList, label: 'Pre-Qualification' },
-  { to: '/onboarding/infra-partner/status', icon: CheckCircle2, label: 'Application Status' },
+  { id: 'welcome', to: '/onboarding/infra-partner/welcome', icon: Home, label: 'Welcome & Tiers' },
+  { id: 'documents', to: '/onboarding/infra-partner/documents', icon: FileText, label: 'Documents Upload' },
+  { id: 'pre-qualification', to: '/onboarding/infra-partner/pre-qualification', icon: ClipboardList, label: 'Pre-Qualification' },
+  { id: 'status', to: '/onboarding/infra-partner/status', icon: CheckCircle2, label: 'Application Status' },
   { label: 'NETWORK', type: 'section' },
   { to: '/onboarding/infra-partner/territories', icon: Globe2, label: 'Territory Registry', badge: 'NEW' },
   { to: '/onboarding/infra-partner/territory-map', icon: Map, label: 'Territory Map' },
@@ -27,19 +29,14 @@ const navItems: NavEntry[] = [
 
 export default function OnboardingSidebar() {
   const location = useLocation();
+  const { currentStepIndex, completedSteps } = useOnboarding();
 
   return (
     <aside className="w-[200px] min-h-screen bg-surface border-r border-border flex flex-col shrink-0">
       {/* Logo */}
       <div className="px-4 py-5 border-b border-border">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg gradient-accent flex items-center justify-center">
-            <span className="font-display font-bold text-xs text-primary-foreground">D</span>
-          </div>
-          <div>
-            <p className="font-display font-bold text-sm text-foreground">DeLEN</p>
-            <p className="text-[10px] text-muted-foreground">Partner Onboarding</p>
-          </div>
+        <div className="flex items-center">
+          <img src="/delen-logo.webp" alt="DeLEN Logo" className="h-8 w-auto" />
         </div>
       </div>
 
@@ -52,11 +49,17 @@ export default function OnboardingSidebar() {
             );
           }
           const navItem = item as NavItem;
-          const isActive = location.pathname === navItem.to;
+          const isActive = location.pathname.startsWith(navItem.to);
+
+          // Logic for onboarding steps status
+          const isCompleted = navItem.id && completedSteps.includes(navItem.id);
+          const isOnboardingStep = !!navItem.id;
+
           return (
             <RouterNavLink
               key={navItem.to}
               to={navItem.to}
+              state={{ fromSidebar: true }}
               className={cn(
                 "flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] transition-colors duration-150",
                 isActive
@@ -64,7 +67,11 @@ export default function OnboardingSidebar() {
                   : "text-muted-foreground hover:text-foreground hover:bg-surface-2"
               )}
             >
-              <navItem.icon size={14} className={isActive ? 'text-primary' : ''} />
+              {isCompleted ? (
+                <CheckCircle2 size={14} className="text-status-green" />
+              ) : (
+                <navItem.icon size={14} className={isActive ? 'text-primary' : ''} />
+              )}
               <span className="truncate">{navItem.label}</span>
               {navItem.badge && (
                 <span className={cn(
@@ -82,14 +89,22 @@ export default function OnboardingSidebar() {
       </nav>
 
       {/* Bottom */}
-      <div className="px-3 py-3 border-t border-border">
+      <div className="px-3 py-3 border-t border-border mt-auto">
+        <div className="flex items-center justify-between mb-3">
+          <ThemeToggle />
+          <span className={cn(
+            "text-[10px] px-1.5 py-0.5 rounded-md",
+            currentStepIndex === 3
+              ? "bg-green-soft text-status-green"
+              : "bg-orange-soft text-status-orange"
+          )}>
+            {currentStepIndex === 3 ? 'Reviewing' : 'In Progress'}
+          </span>
+        </div>
         <div className="flex items-center gap-2">
-          <div className="font-mono text-[10px] px-2 py-1 rounded-md bg-surface-2 text-muted-foreground">
+          <div className="font-mono text-[10px] px-2 py-1 rounded-md bg-surface-2 text-muted-foreground w-full text-center">
             IFP-2026-0087
           </div>
-          <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded-md bg-orange-soft text-status-orange">
-            Pending
-          </span>
         </div>
       </div>
     </aside>

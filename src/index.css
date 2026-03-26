@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,6 +6,81 @@
 
 @layer base {
   :root {
+    /* Light Mode Variables */
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 253 91% 58%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222 47% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 231 25% 35%;
+    /* #434A70 */
+
+    --accent: 253 91% 58%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 253 91% 58%;
+
+    --radius: 0.625rem;
+
+    /* DeLEN Custom Tokens - Light */
+    --bg: 210 40% 98%;
+    --surface: 0 0% 100%;
+    --surface2: 210 40% 96%;
+    --surface3: 210 40% 94%;
+    --surface4: 210 40% 92%;
+
+    --border-subtle: 214 32% 91% / 0.6;
+    --border-medium: 214 32% 91%;
+    --border-strong: 214 32% 85%;
+
+    --accent-color: 253 91% 58%;
+    --accent2: 253 82% 57%;
+    --accent-soft: 253 91% 58% / 0.1;
+    --accent-glow: 253 91% 58% / 0.15;
+
+    --status-green: 142 71% 45%;
+    --green-soft: 142 71% 45% / 0.1;
+    --status-orange: 24 95% 53%;
+    --orange-soft: 24 95% 53% / 0.1;
+    --status-red: 0 84% 60%;
+    --red-soft: 0 84% 60% / 0.1;
+    --status-blue: 221 83% 53%;
+    --blue-soft: 221 83% 53% / 0.1;
+    --status-cyan: 199 89% 48%;
+
+    --text-primary: 222 47% 11%;
+    --text-secondary: 231 25% 35%;
+    /* #434A70 */
+    --text-dim: 215 16% 56%;
+
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 231 25% 35%;
+    /* #434A70 */
+    --sidebar-primary: 253 91% 58%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 222 47% 15%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 222 47% 15%;
+    --sidebar-ring: 253 91% 58%;
+  }
+
+  .dark {
     --background: 222 33% 5%;
     --foreground: 228 33% 92%;
 
@@ -34,9 +109,7 @@
     --input: 0 0% 100% / 0.1;
     --ring: 253 97% 67%;
 
-    --radius: 0.625rem;
-
-    /* DeLEN Custom Tokens */
+    /* DeLEN Custom Tokens - Dark */
     --bg: 222 33% 5%;
     --surface: 222 25% 7%;
     --surface2: 222 20% 10%;
@@ -91,13 +164,16 @@
     width: 6px;
     height: 6px;
   }
+
   ::-webkit-scrollbar-track {
     background: transparent;
   }
+
   ::-webkit-scrollbar-thumb {
     background: hsl(222 18% 15%);
     border-radius: 3px;
   }
+
   ::-webkit-scrollbar-thumb:hover {
     background: hsl(222 16% 20%);
   }
@@ -105,38 +181,72 @@
 
 @layer utilities {
   .font-display {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
   }
+
   .font-body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
   }
+
   .font-mono {
     font-family: 'JetBrains Mono', monospace;
   }
+
   .text-balance {
     text-wrap: balance;
   }
+
   .text-pretty {
     text-wrap: pretty;
   }
+
   .gradient-accent {
     background: linear-gradient(135deg, hsl(253 97% 67%), hsl(253 82% 57%));
   }
+
   .gradient-accent-text {
     background: linear-gradient(135deg, hsl(253 97% 67%), hsl(253 82% 57%));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  .hero-gradient {
+    background: linear-gradient(135deg, hsl(210 40% 98%), hsl(210 40% 92%));
+  }
+
+  .dark .hero-gradient {
+    background: linear-gradient(135deg, #0d1525, #111827);
+  }
+
+  .hero-glow-accent {
+    background: radial-gradient(ellipse at 80% 20%, hsl(var(--primary) / 0.15), transparent 60%);
+  }
+
+  .dark .hero-glow-accent {
+    background: radial-gradient(ellipse at 80% 20%, hsl(var(--primary) / 0.3), transparent 60%);
+  }
+
   .shadow-surface {
-    box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 1px 2px -1px rgba(0,0,0,0.5);
+    box-shadow: 0 0 0 1px rgba(var(--border), 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.5);
   }
+
+  .dark .shadow-surface {
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.5);
+  }
+
   .shadow-surface-hover {
-    box-shadow: 0 0 0 1px rgba(255,255,255,0.12), 0 8px 16px -4px rgba(0,0,0,0.5);
+    box-shadow: 0 0 0 1px rgba(var(--border), 0.12), 0 8px 16px -4px rgba(0, 0, 0, 0.5);
   }
+
+  .dark .shadow-surface-hover {
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), 0 8px 16px -4px rgba(0, 0, 0, 0.5);
+  }
+
   .shadow-glow-accent {
-    box-shadow: 0 0 20px rgba(124,92,252,0.25), 0 0 0 1px rgba(124,92,252,0.15);
+    box-shadow: 0 0 20px rgba(124, 92, 252, 0.25), 0 0 0 1px rgba(124, 92, 252, 0.15);
   }
+
   .section-label {
     @apply text-[10px] uppercase tracking-[0.08em] text-muted-foreground font-medium;
   }

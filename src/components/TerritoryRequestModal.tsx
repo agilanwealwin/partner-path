@@ -3,6 +3,7 @@ import { X, Send, CheckCircle2, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { territories, type Territory, statusConfig } from '@/data/mockData';
 import { cn } from '@/lib/utils';
+import { useOnboarding } from '@/hooks/use-onboarding';
 
 interface Props {
   open: boolean;
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export default function TerritoryRequestModal({ open, onClose, territory }: Props) {
+  const { onboardingData, updateData } = useOnboarding();
   const [selected, setSelected] = useState<Territory | null>(territory);
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -29,6 +31,7 @@ export default function TerritoryRequestModal({ open, onClose, territory }: Prop
     setTimeout(() => {
       setSubmitting(false);
       setSubmitted(true);
+      updateData({ ...onboardingData, isTerritoryRequested: true });
     }, 1200);
   };
 

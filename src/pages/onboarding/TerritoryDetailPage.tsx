@@ -1,258 +1,308 @@
-import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link, useLocation, useNavigate } from 'react-router-dom';
 import {
-  ChevronLeft, Zap, Sun, BarChart3, Shield, MapPinned, Signal,
-  CheckCircle2, Plus, Clock, FileText, GitBranch
+  ArrowLeft, MapPin, Zap, Sun, Wind, Battery, Shield, Info,
+  LineChart, Users, Building2, Globe, Clock, CheckCircle2,
+  Lock, Share2, Download, ExternalLink, ChevronRight, Play,
+  BarChart3, FileText, AlertTriangle, Activity, Satellite, Layers,
+  Database, ShieldCheck, ArrowUpRight
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { territories, statusConfig, riskConfig } from '@/data/mockData';
+import { territories, statusConfig, riskConfig, type Territory } from '@/data/mockData';
 import { cn } from '@/lib/utils';
-
-const monthlyIrradiance = [
-  { month: 'Jan', value: 4.2 }, { month: 'Feb', value: 4.8 }, { month: 'Mar', value: 5.4 },
-  { month: 'Apr', value: 5.9 }, { month: 'May', value: 6.4 }, { month: 'Jun', value: 6.8 },
-  { month: 'Jul', value: 5.2 }, { month: 'Aug', value: 4.8 }, { month: 'Sep', value: 5.0 },
-  { month: 'Oct', value: 5.1 }, { month: 'Nov', value: 4.6 }, { month: 'Dec', value: 4.0 },
-];
-
-const tabs = ['Overview', 'Solar Data', 'Regulatory', 'Projects', 'History'];
+import TerritoryRequestModal from '@/components/TerritoryRequestModal';
 
 export default function TerritoryDetailPage() {
-  const { id } = useParams<{ id: string }>();
-  const [activeTab, setActiveTab] = useState('Overview');
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const fromSidebar = location.state?.fromSidebar;
+  const territory = territories.find(t => t.id === id);
+  const [activeTab, setActiveTab] = useState<'overview' | 'technical' | 'financial' | 'projects'>('overview');
+  const [requestModalOpen, setRequestModalOpen] = useState(false);
+  const [scanStatus, setScanStatus] = useState('IDLE');
 
-  const territory = territories.find(t => t.id === id) || territories[0];
-  const sc = statusConfig[territory.status];
-  const rc = riskConfig[territory.risk];
+  useEffect(() => {
+    const t = setTimeout(() => setScanStatus('OPTIMAL'), 1200);
+    return () => clearTimeout(t);
+  }, []);
+
+  if (!territory) return (
+    <div className="min-h-[60vh] flex flex-col items-center justify-center space-y-4">
+      <AlertTriangle size={48} className="text-status-red opacity-20" />
+      <p className="font-display font-black text-xl text-muted-foreground uppercase tracking-widest text-center">Reference ID {id}<br />Null/Undefined</p>
+      <Button onClick={() => navigate(-1)}>Back to Registry</Button>
+    </div>
+  );
+
+  // Type-safe config access
+  const sc = statusConfig[territory.status as keyof typeof statusConfig];
+  const rc = riskConfig[territory.risk as keyof typeof riskConfig];
 
   return (
-    <div className="p-6 max-w-[1200px] mx-auto space-y-6">
-      <Link to="/onboarding/infra-partner/territories" className="text-[11px] text-muted-foreground hover:text-foreground inline-flex items-center gap-1">
-        <ChevronLeft size={12} /> Back to Territory Registry
-      </Link>
-
-      {/* Header */}
-      <div className="flex items-start justify-between">
-        <div>
-          <div className="flex items-center gap-3">
-            <h1 className="font-display font-bold text-2xl text-foreground">{territory.name}</h1>
-            <span className={cn("inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px]", sc.bgClass, sc.textClass)}>
-              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: sc.color }} />
-              {sc.label}
-            </span>
+    <div className="p-10 max-w-[1400px] mx-auto space-y-10 bg-background pb-32">
+      {/* Enterprise Header / Breadcrumbs */}
+      <div className="flex items-center justify-between border-b border-border pb-6">
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" size="sm" className="h-10 w-10 p-0 rounded-xl hover:bg-surface-2" onClick={() => navigate(-1)}>
+            <ArrowLeft size={18} />
+          </Button>
+          <div className="h-6 w-px bg-border/50 mx-2" />
+          <div className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest overflow-hidden">
+            <Link to="/onboarding/infra-partner/territories" className="text-muted-foreground hover:text-primary transition-colors">Registry</Link>
+            <ChevronRight size={14} className="text-muted-foreground/30" />
+            <span className="text-foreground truncate">{territory.name}</span>
           </div>
-          <p className="text-sm text-muted-foreground mt-1">{territory.state} · India · {territory.id}</p>
         </div>
-        {territory.status === 'available' && (
-          <Button size="sm"><Plus size={14} /> Request This Territory</Button>
-        )}
-      </div>
-
-      {/* Quick Stats */}
-      <div className="grid grid-cols-4 gap-3">
-        {[
-          { icon: Zap, label: 'MW Potential', value: `${territory.mwPotential} MW` },
-          { icon: Sun, label: 'Irradiation', value: `${territory.irradiance} kWh/m²/day` },
-          { icon: BarChart3, label: 'Market Score', value: '74/100' },
-          { icon: Shield, label: 'Risk', value: territory.risk },
-        ].map(s => (
-          <div key={s.label} className="rounded-card bg-surface p-4 shadow-surface">
-            <s.icon size={16} className="text-muted-foreground mb-2" />
-            <p className="text-[10px] text-muted-foreground uppercase">{s.label}</p>
-            <p className="font-display font-bold text-lg text-foreground">{s.value}</p>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-2 border border-border text-[10px] font-black uppercase tracking-widest text-muted-foreground opacity-60">
+            <Satellite size={12} className={cn("transition-colors", scanStatus === 'OPTIMAL' ? 'text-status-green' : 'text-status-orange')} />
+            LIDAR SCAN: {scanStatus}
           </div>
-        ))}
+          <Button variant="outline" size="sm" className="h-10 px-6 rounded-xl border-border bg-surface-2 hover:bg-surface-3 transition-colors font-bold text-xs">
+            <Share2 size={14} className="mr-2 opacity-50" /> Dossier
+          </Button>
+          <Button variant="outline" size="sm" className="h-10 px-6 rounded-xl border-border bg-surface-2 hover:bg-surface-3 transition-colors font-bold text-xs text-status-green">
+            <Download size={14} className="mr-2" /> Export JSON
+          </Button>
+        </div>
       </div>
 
-      {/* Tabs */}
-      <div className="flex gap-1 border-b border-border">
-        {tabs.map(tab => (
-          <button key={tab} onClick={() => setActiveTab(tab)} className={cn(
-            "px-4 py-2.5 text-[12px] transition-colors border-b-2 -mb-px",
-            activeTab === tab ? 'border-primary text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground'
-          )}>{tab}</button>
-        ))}
-      </div>
-
-      <div className="flex gap-6">
-        {/* Main Content */}
-        <div className="flex-1 min-w-0">
-          {activeTab === 'Overview' && (
-            <div className="space-y-4">
-              <div className="rounded-card bg-surface p-5 shadow-surface">
-                <div className="flex items-center gap-2 mb-3"><MapPinned size={14} className="text-muted-foreground" /><span className="text-sm font-medium text-foreground">Geographic Description</span></div>
-                <div className="grid grid-cols-2 gap-3 text-[11px]">
-                  <div><span className="text-muted-foreground">Region:</span> <span className="text-foreground">Western {territory.state}</span></div>
-                  <div><span className="text-muted-foreground">Key Districts:</span> <span className="text-foreground">Agra, Mathura, Etawah, Mainpuri</span></div>
-                  <div><span className="text-muted-foreground">District Coverage:</span> <span className="text-foreground">4 districts (approx. 22,000 km²)</span></div>
-                  <div><span className="text-muted-foreground">Land Availability:</span> <span className="text-foreground">High (75% agricultural)</span></div>
-                  <div className="flex items-center gap-1"><Signal size={12} className="text-status-green" /><span className="text-muted-foreground">Grid:</span> <span className="text-foreground">Good — Agra 400kV substation · 12 km</span></div>
-                  <div><span className="text-muted-foreground">Infrastructure Score:</span> <span className="text-foreground">72/100</span></div>
-                  <div><span className="text-muted-foreground">Transmission Losses:</span> <span className="text-foreground">4.2% avg (low)</span></div>
-                </div>
-              </div>
-              {territory.status === 'available' && (
-                <div className="rounded-card bg-green-soft border border-status-green/20 p-4">
-                  <p className="text-[12px] text-status-green font-medium">This territory is open for subscription</p>
-                  <p className="text-[10px] text-muted-foreground mt-1">Your tier (Pulse) allows up to 5 territory subscriptions · 2 subscribed · 3 remaining</p>
-                  <Button variant="outline-green" size="sm" className="mt-3"><Plus size={12} /> Request This Territory</Button>
-                </div>
-              )}
-            </div>
-          )}
-
-          {activeTab === 'Solar Data' && (
-            <div className="space-y-4">
-              <div className="rounded-card bg-surface p-5 shadow-surface">
-                <span className="section-label mb-3 block">Solar Resource Data</span>
-                <div className="grid grid-cols-2 gap-3 text-[11px]">
-                  {[
-                    ['Annual Avg Irradiance', `${territory.irradiance} kWh/m²/day`],
-                    ['Peak Sun Hours (summer)', '6.2 hrs/day'],
-                    ['Peak Sun Hours (winter)', '4.1 hrs/day'],
-                    ['GHI Data Source', 'NREL / MNRE'],
-                    ['Wind Speed (avg)', '4.2 m/s'],
-                    ['Temperature Range', '8°C – 45°C'],
-                    ['Cloud Cover (annual)', '28%'],
-                    ['Dust Soiling Factor', '3.2% (semi-arid)'],
-                    ['Humidity (avg)', '52%'],
-                    ['Estimated CUF', '21–23%'],
-                  ].map(([label, value]) => (
-                    <div key={label} className="flex justify-between py-1.5 border-b border-border last:border-0">
-                      <span className="text-muted-foreground">{label}</span>
-                      <span className="text-foreground font-mono">{value}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="rounded-card bg-surface p-5 shadow-surface">
-                <span className="section-label mb-3 block">Monthly Irradiance (kWh/m²/day)</span>
-                <div className="flex items-end gap-1.5 h-[140px]">
-                  {monthlyIrradiance.map(m => (
-                    <div key={m.month} className="flex-1 flex flex-col items-center gap-1">
-                      <span className="text-[8px] text-foreground font-mono">{m.value}</span>
-                      <div className="w-full rounded-t-sm bg-status-orange/70" style={{ height: `${((m.value - 3.5) / 3.3) * 100}%` }} />
-                      <span className="text-[8px] text-muted-foreground">{m.month}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'Regulatory' && (
-            <div className="rounded-card bg-surface p-5 shadow-surface">
-              <span className="section-label mb-3 block">Regulatory Environment</span>
-              <div className="space-y-2 text-[11px]">
-                {[
-                  ['State Electricity Board', 'UPPCL'],
-                  ['DISCOM(s)', 'PVVNL · MVVNL'],
-                  ['Net Metering Policy', 'Available (up to 1 MW)'],
-                  ['Open Access Threshold', '> 1 MW'],
-                  ['RPO Target (2025)', '21%'],
-                  ['RPO Compliance (current)', '18.2%'],
-                  ['Env. Clearance Required', '> 5 MW'],
-                  ['Grid Interconnection Lead Time', '8–12 weeks'],
-                  ['Subsidy Available', 'PM-KUSUM (agricultural)'],
-                  ['Wheeling Charges', '₹0.42/kWh'],
-                  ['Banking Charges', '₹0.12/kWh'],
-                ].map(([label, value]) => (
-                  <div key={label} className="flex justify-between py-2 border-b border-border last:border-0">
-                    <span className="text-muted-foreground">{label}</span>
-                    <span className="text-foreground">{value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'Projects' && (
-            <div className="space-y-4">
-              <div className="rounded-card bg-surface p-5 shadow-surface">
-                <p className="text-sm text-foreground mb-2">112 MW of {territory.mwPotential} MW potential undeployed</p>
-                <div className="w-full h-3 bg-surface-3 rounded-full overflow-hidden">
-                  <div className="h-full bg-status-green rounded-full" style={{ width: '30%' }} />
-                </div>
-                <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
-                  <span>49 MW deployed (30%)</span><span>112 MW remaining (70%)</span>
-                </div>
-              </div>
-              <div className="rounded-card bg-surface p-5 shadow-surface">
-                <span className="section-label mb-3 block">Existing Projects</span>
-                <div className="text-[11px]">
-                  <div className="flex items-center justify-between py-2 border-b border-border">
-                    <span className="text-foreground">Agra Solar Park</span>
-                    <span className="text-muted-foreground">NovaSun · Ground · 49 MW · Live</span>
-                  </div>
-                </div>
-              </div>
-              <div className="rounded-card bg-surface p-5 shadow-surface">
-                <span className="section-label mb-3 block">Available Opportunities</span>
-                <div className="space-y-2 text-[11px]">
-                  <div className="flex justify-between py-1.5"><span className="text-muted-foreground">Rooftop (C&I)</span><span className="text-foreground">~35 MW potential</span></div>
-                  <div className="flex justify-between py-1.5"><span className="text-muted-foreground">Ground Mount (utility)</span><span className="text-foreground">~42 MW potential</span></div>
-                  <div className="flex justify-between py-1.5"><span className="text-muted-foreground">Agri-PV (PM-KUSUM)</span><span className="text-foreground">~35 MW potential</span></div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'History' && (
-            <div className="rounded-card bg-surface p-5 shadow-surface">
-              <span className="section-label mb-4 block">Territory Timeline</span>
-              <div className="space-y-4">
-                {[
-                  { date: 'Apr 2024', text: 'Territory created · MW potential mapped from NREL data' },
-                  { date: 'Jun 2024', text: 'NovaSun Systems submitted subscription request' },
-                  { date: 'Jul 2024', text: 'Admin approved · Status changed to Subscribed' },
-                  { date: 'Sep 2024', text: 'Agra Solar Park project created under this territory' },
-                  { date: 'Jan 2025', text: 'Project commissioned · Status → Partially Allocated' },
-                ].map((item, i) => (
-                  <div key={i} className="flex gap-3">
-                    <div className="flex flex-col items-center">
-                      <div className="w-2 h-2 rounded-full bg-primary mt-1.5" />
-                      {i < 4 && <div className="w-px flex-1 bg-border" />}
-                    </div>
-                    <div className="pb-2">
-                      <p className="font-mono text-[10px] text-muted-foreground">{item.date}</p>
-                      <p className="text-[11px] text-foreground mt-0.5">{item.text}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+      {/* Hero Profile Design */}
+      <div className="rounded-[2.5rem] p-12 relative overflow-hidden hero-gradient border border-border shadow-2xl group">
+        <div className="absolute inset-0 hero-glow-accent opacity-20" />
+        <div className="absolute top-0 right-0 p-12 opacity-[0.03] select-none pointer-events-none">
+          <Globe size={400} className="text-foreground" />
         </div>
 
-        {/* Right Sidebar */}
-        <div className="w-[260px] shrink-0 space-y-4">
-          <div className="rounded-card bg-surface p-4 shadow-surface">
-            <span className="text-xs font-medium text-foreground mb-3 block">Quick Stats</span>
-            <div className="space-y-2 text-[11px]">
-              <div className="flex justify-between"><span className="text-muted-foreground">Territory ID</span><span className="font-mono text-foreground">{territory.id}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">State</span><span className="text-foreground">{territory.state}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">MW Potential</span><span className="text-foreground">{territory.mwPotential} MW</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Irradiance</span><span className="text-foreground">{territory.irradiance}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Risk</span><span className={cn(rc.textClass)}>{territory.risk}</span></div>
+        <div className="relative z-10 flex flex-col lg:flex-row justify-between gap-12 items-start lg:items-end">
+          <div className="space-y-6">
+            <div className="flex items-center gap-3">
+              <div className={cn(
+                "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest",
+                territory.status === 'available' ? 'bg-sky-50 dark:bg-sky-900/40 text-sky-600 dark:text-sky-400' :
+                  territory.status === 'subscribed' ? 'bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400' :
+                    territory.status === 'reserved' ? 'bg-orange-50 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400' :
+                      'bg-zinc-100 dark:bg-zinc-800/60 text-zinc-600 dark:text-zinc-400'
+              )}>
+                <div className={cn(
+                  "w-1.5 h-1.5 rounded-full",
+                  territory.status === 'available' ? 'bg-sky-500' :
+                    territory.status === 'subscribed' ? 'bg-indigo-500' :
+                      territory.status === 'reserved' ? 'bg-orange-500' :
+                        'bg-zinc-500'
+                )} />
+                {sc.label}
+              </div>
+              <div className={cn(
+                "px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest",
+                territory.risk === 'Low' ? 'bg-emerald-50 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400' :
+                  territory.risk === 'Medium' ? 'bg-violet-50 dark:bg-violet-900/40 text-violet-600 dark:text-violet-400' :
+                    'bg-rose-50 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400'
+              )}>
+                {territory.risk} RISK FACTOR
+              </div>
             </div>
-          </div>
 
-          <div className="rounded-card bg-surface p-4 shadow-surface">
-            <span className="text-xs font-medium text-foreground mb-3 block">Related Territories</span>
             <div className="space-y-2">
-              {territories.filter(t => t.state === territory.state && t.id !== territory.id).slice(0, 4).map(t => (
-                <Link key={t.id} to={`/onboarding/infra-partner/territories/${t.id}`} className="block p-2 rounded-lg bg-surface-2 hover:bg-surface-3 transition-colors">
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-[10px] text-foreground">{t.id}</span>
-                    <span className={cn("text-[9px] px-1 py-0.5 rounded", statusConfig[t.status].bgClass, statusConfig[t.status].textClass)}>{statusConfig[t.status].label}</span>
+              <p className="text-[11px] font-black tracking-[0.4em] text-primary uppercase ml-1">TERRITORY PROFILE // {territory.id}</p>
+              <h1 className="font-display font-black text-6xl text-foreground leading-[1.1] tracking-tighter">
+                {territory.name}
+              </h1>
+              <p className="text-lg text-muted-foreground font-medium flex items-center gap-3 mt-4 opacity-80">
+                <MapPin size={20} className="text-primary" /> {territory.state}, Republic of India
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-10 bg-surface/30 backdrop-blur-3xl border border-white/5 p-10 rounded-[2.5rem] shadow-2xl min-w-[500px]">
+            {[
+              { label: 'ENERGY POTENTIAL', val: territory.mwPotential, unit: 'MW', icon: Zap, color: 'text-primary' },
+              { label: 'SOLAR IRRADIANCE', val: territory.irradiance, unit: 'kWh/m²', icon: Sun, color: 'text-sky-400' },
+              { label: 'SUBSCRIBER SLOTS', val: `${territory.assignedPartner ? '1' : '0'} / 3`, icon: Users, color: 'text-status-green' }
+            ].map(item => (
+              <div key={item.label} className="space-y-2 group/stat">
+                <div className="flex items-center gap-2 mb-3">
+                  <item.icon size={16} className={cn("opacity-60 group-hover:opacity-100 transition-opacity", item.color)} />
+                  <p className="text-[9px] text-muted-foreground font-black tracking-[0.2em] uppercase opacity-60">{item.label}</p>
+                </div>
+                <p className="font-display font-black text-3xl text-foreground tracking-tighter">
+                  {item.val} <span className="text-xs font-bold text-muted-foreground opacity-50">{item.unit}</span>
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr,380px] gap-12">
+        {/* Left: Detailed Analysis */}
+        <div className="space-y-10">
+          <div className="flex items-center gap-2 p-1 rounded-[1.25rem] bg-surface border border-border w-fit shadow-inner">
+            {(['overview', 'technical', 'financial', 'projects'] as const).map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={cn(
+                  "px-8 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all",
+                  activeTab === tab
+                    ? 'bg-primary text-white shadow-xl shadow-primary/20 scale-105'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-surface-2'
+                )}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          <div className="rounded-[2.5rem] bg-surface border border-border p-12 shadow-2xl relative overflow-hidden min-h-[500px]">
+            {/* Decorative grid pattern */}
+            <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+
+            {activeTab === 'overview' && (
+              <div className="space-y-12 relative z-10">
+                <div className="space-y-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-1.5 h-6 bg-primary rounded-full" />
+                    <h3 className="text-xl font-black text-foreground uppercase tracking-tight">Geomorphological Assessment</h3>
                   </div>
-                  <p className="text-[10px] text-muted-foreground mt-0.5">{t.name}</p>
-                </Link>
+                  <p className="text-[15px] text-muted-foreground leading-[1.8] font-medium opacity-90">
+                    This territory in central {territory.state} exhibits prime geomorphological stability for utility-scale deployments.
+                    Advanced topographical LIDAR analysis confirms {'>'}95% contiguous land availability with minimal shading coefficients.
+                    The region is strategically positioned within the high-irradiance corridor of India, ensuring optimized performance for PV trackers.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-10">
+                  <div className="space-y-6 p-8 rounded-3xl bg-surface-2 border border-border/50 group hover:border-primary/20 transition-all">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-status-green/10 flex items-center justify-center">
+                        <Layers size={20} className="text-status-green" />
+                      </div>
+                      <h4 className="text-[11px] font-black text-foreground uppercase tracking-widest">Protocol Advantages</h4>
+                    </div>
+                    <ul className="space-y-4">
+                      {[
+                        'Tier-1 Grid Connectivity (220kV Hub)',
+                        'Optimized Shading Ratio (<0.4%)',
+                        'Direct Protocol Yield Multiplier (1.2x)',
+                        'Priority PPA Clearing Zone'
+                      ].map((item, i) => (
+                        <li key={i} className="flex items-center gap-4 text-xs text-foreground font-bold">
+                          <CheckCircle2 size={16} className="text-status-green shrink-0" strokeWidth={3} /> {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="flex flex-col justify-between">
+                    <div className="p-8 rounded-3xl bg-surface-3 border border-border/50 space-y-4 relative overflow-hidden">
+                      <Activity size={80} className="absolute -bottom-4 -right-4 text-primary opacity-5" />
+                      <div className="flex items-center gap-3">
+                        <Zap size={18} className="text-status-orange" />
+                        <span className="text-[10px] font-black text-foreground uppercase tracking-widest italic">Live Telemetry</span>
+                      </div>
+                      <p className="text-[12px] text-muted-foreground font-medium leading-relaxed">
+                        Infrastructure Review: {territory.status === 'available' ? 'OPEN' : 'LOCKED'}
+                      </p>
+                      <p className="text-[11px] text-muted-foreground/60 italic">
+                        Subscription clearance window: 14 Business Days
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-4 mt-8">
+                      {!fromSidebar && territory.status === 'available' && (
+                        <Button size="lg" className="flex-1 h-14 bg-primary hover:bg-primary/90 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-2xl shadow-primary/20 group" onClick={() => setRequestModalOpen(true)}>
+                          Request Deployment <ArrowUpRight size={18} className="ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                        </Button>
+                      )}
+                      <Button variant="outline" size="lg" className="h-14 px-8 border-2 border-border text-foreground hover:bg-surface-2 rounded-2xl">
+                        <Share2 size={18} />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {(['technical', 'financial', 'projects'] as string[]).includes(activeTab) && (
+              <div className="py-24 text-center space-y-8 animate-in fade-in zoom-in duration-500">
+                <div className="w-24 h-24 rounded-full bg-surface-2 border-2 border-dashed border-border flex items-center justify-center mx-auto">
+                  <Database size={40} className="text-muted-foreground/20" />
+                </div>
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-black text-foreground uppercase tracking-tight">Accessing Secure Vault</h3>
+                  <p className="text-sm text-muted-foreground max-w-md mx-auto font-medium leading-[1.6]">
+                    High-resolution LIDAR models, legal land dossiers, and grid stability logs are under cryptographic seal.
+                    <br /><span className="text-primary">Upgrade to Prime Account</span> or complete PQ assessment to unlock technical insights.
+                  </p>
+                </div>
+                <Button variant="outline" className="h-12 border-2 rounded-xl text-[11px] font-black uppercase tracking-widest">
+                  View Access Requirements
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Right: Technical Dossier Sidecard */}
+        <div className="space-y-8">
+          <div className="rounded-[2rem] bg-surface-2 border-2 border-border p-8 shadow-2xl space-y-8 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-8 opacity-5">
+              <FileText size={48} />
+            </div>
+
+            <h3 className="text-[11px] font-black text-foreground uppercase tracking-[0.3em] flex items-center gap-3">
+              <BarChart3 size={18} className="text-primary" /> Technical Metrics
+            </h3>
+
+            <div className="space-y-4">
+              {[
+                { label: 'Cloud Cover Index', value: '4.2%', sub: 'Optimized Yield' },
+                { label: 'Transmission Efficiency', value: '98.4%', sub: 'Tier-1 Reliability' },
+                { label: 'Grid Latency', value: '18ms', sub: 'High Stability' },
+                { label: 'Surface Roughness', value: 'Low', sub: 'Flat Terrain' }
+              ].map((metric, i) => (
+                <div key={i} className="p-4 rounded-2xl bg-surface border border-border group-hover:border-primary/10 transition-colors">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-[10px] text-muted-foreground font-black uppercase tracking-widest opacity-60">{metric.label}</span>
+                    <span className="text-sm font-black text-foreground">{metric.value}</span>
+                  </div>
+                  <p className="text-[10px] text-muted-foreground/60 italic">{metric.sub}</p>
+                </div>
               ))}
             </div>
+
+            <div className="p-4 rounded-2xl bg-orange-soft/30 border border-status-orange/20 flex gap-4">
+              <AlertTriangle size={20} className="text-status-orange shrink-0 mt-0.5" />
+              <p className="text-[11px] text-status-orange/90 leading-[1.6] font-medium italic">
+                Annual high-speed wind factor detected in Q2 (Apr-Jun). Automated PV protection protocols recommended for this sector.
+              </p>
+            </div>
+          </div>
+
+          <div className="rounded-[2rem] bg-primary/5 border border-primary/20 p-8 space-y-6">
+            <div className="flex items-center gap-3">
+              <ShieldCheck size={20} className="text-primary" />
+              <h4 className="text-[11px] font-black text-foreground uppercase tracking-widest">DeLEN Compliance</h4>
+            </div>
+            <p className="text-[11px] text-muted-foreground leading-relaxed font-medium">
+              This territory is fully compliant with DeLEN Protocol v2.4 environmental and social safeguard standards.
+            </p>
+            <div className="h-0.5 w-full bg-primary/20 rounded-full" />
+            <div className="flex justify-between items-center">
+              <span className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">Trust Score</span>
+              <span className="text-sm font-black text-primary uppercase">AAA Verified</span>
+            </div>
           </div>
         </div>
       </div>
+
+      <TerritoryRequestModal
+        open={requestModalOpen}
+        onClose={() => setRequestModalOpen(false)}
+        territory={territory}
+      />
     </div>
   );
 }

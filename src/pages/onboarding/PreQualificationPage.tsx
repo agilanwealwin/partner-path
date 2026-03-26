@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Building2, Users, Wrench, DollarSign, Globe2, Zap, Sun, Wind,
-  BatteryCharging, Radio, BarChart3, Info, ChevronDown, ChevronUp
+  BatteryCharging, Radio, BarChart3, ChevronDown, ChevronUp, Upload
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
+import { useOnboarding } from '@/hooks/use-onboarding';
+import { territories } from '@/data/mockData';
 
 const indianStates = [
-  'Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat',
-  'Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh',
-  'Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab',
-  'Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh',
-  'Uttarakhand','West Bengal','Delhi','Jammu & Kashmir','Ladakh','Puducherry',
-  'Chandigarh','Andaman & Nicobar','Dadra & Nagar Haveli','Lakshadweep',
+  'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat',
+  'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh',
+  'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab',
+  'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh',
+  'Uttarakhand', 'West Bengal', 'Delhi', 'Jammu & Kashmir', 'Ladakh', 'Puducherry',
+  'Chandigarh', 'Andaman & Nicobar', 'Dadra & Nagar Haveli', 'Lakshadweep',
 ];
 
 const assetTypes = [
@@ -37,6 +40,8 @@ const scoringCriteria = [
 ];
 
 export default function PreQualificationPage() {
+  const navigate = useNavigate();
+  const { nextStep, onboardingData, updateData } = useOnboarding();
   const [selectedTier, setSelectedTier] = useState(1);
   const [showScoring, setShowScoring] = useState(true);
   const [selectedAssets, setSelectedAssets] = useState<string[]>([]);
@@ -174,10 +179,47 @@ export default function PreQualificationPage() {
 
           {/* Block 6 — Territory Interest */}
           <div className="rounded-card bg-surface p-5 shadow-surface space-y-4">
-            <div className="flex items-center gap-2 mb-1">
-              <Globe2 size={16} className="text-muted-foreground" />
-              <span className="section-label">Block 6 — Territory Interest</span>
+            <div className="flex items-center justify-between mb-1">
+              <div className="flex items-center gap-2">
+                <Globe2 size={16} className="text-muted-foreground" />
+                <span className="section-label">Block 6 — Territory Interest</span>
+              </div>
+              <Button
+                variant="outline"
+                size="xs"
+                className="text-primary border-primary hover:bg-accent-soft"
+                onClick={() => navigate('/onboarding/infra-partner/territories', { state: { selectionMode: true } })}
+              >
+                Browse Specific Territories
+              </Button>
             </div>
+
+            {/* Specific Territories Display */}
+            {onboardingData.selectedTerritories?.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-medium">Selected Specific Territories</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {onboardingData.selectedTerritories.map((tid: string) => {
+                    const t = territories.find(item => item.id === tid);
+                    return (
+                      <span key={tid} className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-accent-soft text-primary text-[10px] border border-primary/10">
+                        {t?.name || tid}
+                        <button
+                          onClick={() => updateData({
+                            selectedTerritories: onboardingData.selectedTerritories.filter((id: string) => id !== tid)
+                          })}
+                          className="hover:text-foreground transition-colors ml-1"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    );
+                  })}
+                </div>
+                <div className="h-px bg-border my-2" />
+              </div>
+            )}
+
             <p className="text-[11px] text-muted-foreground">Which states are you interested in deploying projects?</p>
             <div className="flex gap-2 mb-2">
               <Button variant="outline" size="xs" onClick={() => setSelectedStates(indianStates)}>Select All</Button>
@@ -242,7 +284,10 @@ export default function PreQualificationPage() {
 
           <div className="flex gap-3">
             <Button variant="outline" size="lg">Save Progress</Button>
-            <Button size="lg" disabled={!declarations.every(Boolean)}>Submit Pre-Qualification</Button>
+            <Button size="lg" disabled={!declarations.every(Boolean)} onClick={() => {
+              updateData({ ...onboardingData, isSubmitted: true });
+              nextStep();
+            }}>Submit Pre-Qualification</Button>
           </div>
         </div>
 

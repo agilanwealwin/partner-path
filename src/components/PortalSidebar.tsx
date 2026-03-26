@@ -20,9 +20,6 @@ const navItems: NavEntry[] = [
   { label: 'OPERATIONS', type: 'section' },
   { to: '/partner/monitoring', icon: Activity, label: 'O&M Monitoring' },
   { to: '/partner/rewards', icon: Coins, label: 'Rewards', badge: 'NEW' },
-  { label: 'NETWORK', type: 'section' },
-  { to: '/partner/territory-map', icon: Globe2, label: 'Territory Map' },
-  { to: '/partner/territories', icon: ClipboardList, label: 'Territory Registry' },
   { label: 'ADMIN', type: 'section' },
   { to: '/partner/documents', icon: FileText, label: 'Documents' },
   { to: '/partner/governance', icon: BarChart3, label: 'Governance' },
@@ -36,17 +33,8 @@ export default function PortalSidebar() {
     <aside className="w-[232px] min-h-screen bg-surface border-r border-border flex flex-col shrink-0">
       {/* Logo */}
       <div className="px-4 py-4 border-b border-border">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg gradient-accent flex items-center justify-center">
-            <span className="font-display font-bold text-sm text-primary-foreground">D</span>
-          </div>
-          <div>
-            <p className="font-display font-bold text-sm text-foreground">DeLEN Protocol</p>
-            <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-status-green" />
-              <span className="text-[10px] text-muted-foreground font-mono">v2.4 · Mainnet</span>
-            </div>
-          </div>
+        <div className="flex items-center">
+          <img src="/delen-logo.webp" alt="DeLEN Logo" className="h-9 w-auto" />
         </div>
       </div>
 

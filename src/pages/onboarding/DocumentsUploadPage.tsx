@@ -6,6 +6,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
+import { useOnboarding } from '@/hooks/use-onboarding';
 
 type DocStatus = 'verified' | 'review' | 'rejected' | 'not-uploaded' | 'optional';
 
@@ -69,6 +70,7 @@ const statusDisplay: Record<DocStatus, { icon: React.ElementType; label: string;
 };
 
 export default function DocumentsUploadPage() {
+  const { nextStep } = useOnboarding();
   const [openSections, setOpenSections] = useState<Record<number, boolean>>({ 0: true, 1: true, 2: true, 3: true });
   const [uploadingDoc, setUploadingDoc] = useState<number | null>(null);
 
@@ -196,7 +198,7 @@ export default function DocumentsUploadPage() {
               <div className="flex justify-between"><span className="text-muted-foreground">Not Uploaded</span><span className="text-foreground font-mono">{notUploaded}</span></div>
             </div>
 
-            <Button className="w-full mt-4" size="sm" disabled>Submit for Review</Button>
+            <Button className="w-full mt-4" size="sm" onClick={nextStep}>Submit for Review</Button>
             <p className="text-[9px] text-muted-foreground mt-2 text-center">All required documents must be uploaded before submission</p>
 
             <div className="mt-4 p-2.5 rounded-lg bg-accent-soft">

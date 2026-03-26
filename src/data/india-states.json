@@ -1,0 +1,751 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Jammu & Kashmir",
+                "id": "JK"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            74.79,
+                            34.08
+                        ],
+                        [
+                            76.83,
+                            34.64
+                        ],
+                        [
+                            77.10,
+                            32.55
+                        ],
+                        [
+                            74.92,
+                            32.27
+                        ],
+                        [
+                            74.79,
+                            34.08
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Himachal Pradesh",
+                "id": "HP"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            76.83,
+                            34.64
+                        ],
+                        [
+                            78.19,
+                            32.73
+                        ],
+                        [
+                            77.63,
+                            31.10
+                        ],
+                        [
+                            75.90,
+                            32.19
+                        ],
+                        [
+                            76.83,
+                            34.64
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Punjab",
+                "id": "PB"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            75.90,
+                            32.19
+                        ],
+                        [
+                            76.77,
+                            30.73
+                        ],
+                        [
+                            74.40,
+                            29.89
+                        ],
+                        [
+                            73.88,
+                            30.15
+                        ],
+                        [
+                            75.30,
+                            32.43
+                        ],
+                        [
+                            75.90,
+                            32.19
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Uttarakhand",
+                "id": "UK"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            78.19,
+                            32.73
+                        ],
+                        [
+                            81.01,
+                            30.20
+                        ],
+                        [
+                            79.48,
+                            28.97
+                        ],
+                        [
+                            77.63,
+                            31.10
+                        ],
+                        [
+                            78.19,
+                            32.73
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Haryana",
+                "id": "HR"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            76.77,
+                            30.73
+                        ],
+                        [
+                            77.30,
+                            29.00
+                        ],
+                        [
+                            77.00,
+                            27.50
+                        ],
+                        [
+                            75.00,
+                            28.00
+                        ],
+                        [
+                            74.40,
+                            29.89
+                        ],
+                        [
+                            76.77,
+                            30.73
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Rajasthan",
+                "id": "RJ"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            74.40,
+                            29.89
+                        ],
+                        [
+                            77.00,
+                            27.50
+                        ],
+                        [
+                            77.50,
+                            24.00
+                        ],
+                        [
+                            71.00,
+                            24.50
+                        ],
+                        [
+                            69.50,
+                            28.00
+                        ],
+                        [
+                            74.40,
+                            29.89
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Gujarat",
+                "id": "GJ"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            71.00,
+                            24.50
+                        ],
+                        [
+                            74.00,
+                            23.00
+                        ],
+                        [
+                            72.50,
+                            21.00
+                        ],
+                        [
+                            68.00,
+                            23.50
+                        ],
+                        [
+                            71.00,
+                            24.50
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Maharashtra",
+                "id": "MH"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            74.00,
+                            23.00
+                        ],
+                        [
+                            79.00,
+                            21.00
+                        ],
+                        [
+                            80.50,
+                            18.50
+                        ],
+                        [
+                            73.50,
+                            15.50
+                        ],
+                        [
+                            72.50,
+                            21.00
+                        ],
+                        [
+                            74.00,
+                            23.00
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Karnataka",
+                "id": "KA"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            73.50,
+                            15.50
+                        ],
+                        [
+                            77.50,
+                            15.00
+                        ],
+                        [
+                            78.00,
+                            11.50
+                        ],
+                        [
+                            74.50,
+                            11.50
+                        ],
+                        [
+                            73.50,
+                            15.50
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Tamil Nadu",
+                "id": "TN"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            78.00,
+                            11.50
+                        ],
+                        [
+                            80.00,
+                            13.50
+                        ],
+                        [
+                            79.50,
+                            8.00
+                        ],
+                        [
+                            77.00,
+                            8.00
+                        ],
+                        [
+                            78.00,
+                            11.50
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Kerala",
+                "id": "KL"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            74.50,
+                            11.50
+                        ],
+                        [
+                            77.50,
+                            11.50
+                        ],
+                        [
+                            77.00,
+                            8.00
+                        ],
+                        [
+                            76.00,
+                            10.00
+                        ],
+                        [
+                            74.50,
+                            11.50
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Andhra Pradesh",
+                "id": "AP"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            77.50,
+                            15.00
+                        ],
+                        [
+                            81.00,
+                            19.00
+                        ],
+                        [
+                            84.00,
+                            18.00
+                        ],
+                        [
+                            80.00,
+                            13.50
+                        ],
+                        [
+                            77.50,
+                            15.00
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Telangana",
+                "id": "TG"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            77.50,
+                            15.00
+                        ],
+                        [
+                            80.50,
+                            18.50
+                        ],
+                        [
+                            81.00,
+                            19.00
+                        ],
+                        [
+                            77.50,
+                            15.00
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Madhya Pradesh",
+                "id": "MP"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            77.50,
+                            24.00
+                        ],
+                        [
+                            82.50,
+                            24.50
+                        ],
+                        [
+                            81.00,
+                            21.50
+                        ],
+                        [
+                            79.00,
+                            21.00
+                        ],
+                        [
+                            74.00,
+                            23.00
+                        ],
+                        [
+                            77.50,
+                            24.00
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Chhattisgarh",
+                "id": "CT"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            82.50,
+                            24.50
+                        ],
+                        [
+                            84.50,
+                            23.50
+                        ],
+                        [
+                            81.00,
+                            17.50
+                        ],
+                        [
+                            80.50,
+                            18.50
+                        ],
+                        [
+                            81.00,
+                            21.50
+                        ],
+                        [
+                            82.50,
+                            24.50
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Odisha",
+                "id": "OR"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            84.50,
+                            23.50
+                        ],
+                        [
+                            87.50,
+                            22.00
+                        ],
+                        [
+                            84.00,
+                            18.00
+                        ],
+                        [
+                            81.00,
+                            19.00
+                        ],
+                        [
+                            81.00,
+                            21.50
+                        ],
+                        [
+                            84.50,
+                            23.50
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Uttar Pradesh",
+                "id": "UP"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            77.30,
+                            29.00
+                        ],
+                        [
+                            84.00,
+                            27.50
+                        ],
+                        [
+                            83.00,
+                            24.00
+                        ],
+                        [
+                            77.50,
+                            24.00
+                        ],
+                        [
+                            77.00,
+                            27.50
+                        ],
+                        [
+                            77.30,
+                            29.00
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Bihar",
+                "id": "BR"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            84.00,
+                            27.50
+                        ],
+                        [
+                            88.00,
+                            26.50
+                        ],
+                        [
+                            87.50,
+                            24.50
+                        ],
+                        [
+                            83.00,
+                            24.00
+                        ],
+                        [
+                            84.00,
+                            27.50
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Jharkhand",
+                "id": "JH"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            83.00,
+                            24.00
+                        ],
+                        [
+                            87.50,
+                            24.50
+                        ],
+                        [
+                            86.50,
+                            22.50
+                        ],
+                        [
+                            84.50,
+                            23.50
+                        ],
+                        [
+                            83.00,
+                            24.00
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "West Bengal",
+                "id": "WB"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            88.00,
+                            26.50
+                        ],
+                        [
+                            89.50,
+                            26.50
+                        ],
+                        [
+                            88.50,
+                            21.50
+                        ],
+                        [
+                            87.50,
+                            22.00
+                        ],
+                        [
+                            87.50,
+                            24.50
+                        ],
+                        [
+                            88.00,
+                            26.50
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Assam",
+                "id": "AS"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            89.50,
+                            26.50
+                        ],
+                        [
+                            95.00,
+                            27.00
+                        ],
+                        [
+                            93.00,
+                            24.00
+                        ],
+                        [
+                            89.50,
+                            24.00
+                        ],
+                        [
+                            89.50,
+                            26.50
+                        ]
+                    ]
+                ]
+            }
+        }
+    ]
+}
