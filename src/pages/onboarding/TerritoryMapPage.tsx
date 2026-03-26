@@ -70,7 +70,13 @@ export default function TerritoryMapPage() {
     }
   }, []);
 
-  const getIndiaStateColor = (stateName: string) => {
+  // Resolve GeoJSON name to our data key
+  const resolveStateName = useCallback((geoName: string) => {
+    return nameMap[geoName] || geoName;
+  }, []);
+
+  const getIndiaStateColor = (geoName: string) => {
+    const stateName = resolveStateName(geoName);
     const data = indiaStateData[stateName];
     if (!data) return 'hsl(220 60% 75% / 0.3)';
     const isHovered = hoveredState === stateName;
@@ -347,12 +353,12 @@ export default function TerritoryMapPage() {
                 }
               </Geographies>
 
-              {/* India states (interactive, blue shades) */}
-              <Geographies geography={indiaStatesGeo}>
+              {/* India states (interactive, blue shades) — accurate GADM boundaries */}
+              <Geographies geography={INDIA_GEO_URL}>
                 {({ geographies }) =>
                   geographies.map((geo) => {
-                    const stateName = geo.properties.name;
-                    const isHovered = hoveredState === stateName;
+                    const geoName = geo.properties.name;
+                    const stateName = resolveStateName(geoName);
                     return (
                       <Geography
                         key={geo.rsmKey}
