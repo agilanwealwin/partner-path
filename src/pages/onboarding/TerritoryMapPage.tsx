@@ -357,21 +357,25 @@ export default function TerritoryMapPage() {
                 }
               </Geographies>
 
-              {/* India states (interactive, blue shades) — accurate GADM boundaries */}
+              {/* India states (interactive, blue shades) — accurate boundaries */}
               <Geographies geography={INDIA_GEO_URL}>
                 {({ geographies }) =>
                   geographies.map((geo) => {
-                    const geoName = geo.properties.name;
-                    const stateName = resolveStateName(geoName);
+                    const stateName = resolveStateName(geo.properties as Record<string, unknown>);
+                    const stateCode = String(
+                      (geo.properties as Record<string, unknown>).state_code ??
+                      (geo.properties as Record<string, unknown>).id ??
+                      geo.rsmKey
+                    );
                     return (
                       <Geography
-                        key={geo.rsmKey}
+                        key={`${stateCode}-${geo.rsmKey}`}
                         geography={geo}
                         onMouseEnter={() => { setHoveredState(stateName); setHoveredCountry(null); }}
                         onMouseLeave={() => setHoveredState(null)}
                         style={{
                           default: {
-                            fill: getIndiaStateColor(stateName),
+                            fill: getIndiaStateColor(geo.properties as Record<string, unknown>),
                             stroke: '#3b5998',
                             strokeWidth: 0.6,
                             outline: 'none',
