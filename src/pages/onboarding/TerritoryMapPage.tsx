@@ -303,9 +303,9 @@ export default function TerritoryMapPage() {
           {/* Map */}
           <ComposableMap
             projection="geoMercator"
-            projectionConfig={{ center: [78, 22], scale: 800 }}
-            width={900}
-            height={700}
+            projectionConfig={{ center: [82, 22], scale: 140 }}
+            width={800}
+            height={600}
             className="w-full h-full"
           >
             <ZoomableGroup
@@ -315,7 +315,7 @@ export default function TerritoryMapPage() {
                 setCenter(coordinates as [number, number]);
                 setZoom(z);
               }}
-              minZoom={1}
+              minZoom={0.8}
               maxZoom={8}
             >
               {/* World countries (grey, non-interactive except tooltip) */}
