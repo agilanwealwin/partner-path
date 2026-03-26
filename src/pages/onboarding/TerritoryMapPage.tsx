@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import {
   Search, Plus, Minus, Crosshair, ChevronLeft, MapPinned,
   Filter, Activity, Monitor, SignalHigh, Network, Rocket,
@@ -12,9 +12,15 @@ import {
   Geography,
   ZoomableGroup
 } from 'react-simple-maps';
-import indiaStatesGeo from '@/data/india-states.json';
-
 const WORLD_GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
+const INDIA_GEO_URL = '/india-states-geo.json';
+
+// Map GeoJSON NAME_1 values to our data keys
+const nameMap: Record<string, string> = {
+  'Jammu and Kashmir': 'Jammu & Kashmir',
+  'Orissa': 'Odisha',
+  'Uttaranchal': 'Uttarakhand',
+};
 
 const indiaStateData: Record<string, { territories: number; available: number; subscribed: number; reserved: number; allocated: number; mw: number }> = {
   'Jammu & Kashmir': { territories: 20, available: 10, subscribed: 2, reserved: 5, allocated: 3, mw: 700 },
@@ -64,7 +70,13 @@ export default function TerritoryMapPage() {
     }
   }, []);
 
-  const getIndiaStateColor = (stateName: string) => {
+  // Resolve GeoJSON name to our data key
+  const resolveStateName = useCallback((geoName: string) => {
+    return nameMap[geoName] || geoName;
+  }, []);
+
+  const getIndiaStateColor = (geoName: string) => {
+    const stateName = resolveStateName(geoName);
     const data = indiaStateData[stateName];
     if (!data) return 'hsl(220 60% 75% / 0.3)';
     const isHovered = hoveredState === stateName;
@@ -341,12 +353,12 @@ export default function TerritoryMapPage() {
                 }
               </Geographies>
 
-              {/* India states (interactive, blue shades) */}
-              <Geographies geography={indiaStatesGeo}>
+              {/* India states (interactive, blue shades) — accurate GADM boundaries */}
+              <Geographies geography={INDIA_GEO_URL}>
                 {({ geographies }) =>
                   geographies.map((geo) => {
-                    const stateName = geo.properties.name;
-                    const isHovered = hoveredState === stateName;
+                    const geoName = geo.properties.name;
+                    const stateName = resolveStateName(geoName);
                     return (
                       <Geography
                         key={geo.rsmKey}
