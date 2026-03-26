@@ -13,13 +13,14 @@ import {
   ZoomableGroup
 } from 'react-simple-maps';
 const WORLD_GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
-const INDIA_GEO_URL = '/india-states-geo.json';
+const INDIA_GEO_URL = '/india-states-accurate.geojson';
 
-// Map GeoJSON NAME_1 values to our data keys
+// Map GeoJSON names to our territory data keys
 const nameMap: Record<string, string> = {
   'Jammu and Kashmir': 'Jammu & Kashmir',
   'Orissa': 'Odisha',
   'Uttaranchal': 'Uttarakhand',
+  'NCT of Delhi': 'Delhi',
 };
 
 const indiaStateData: Record<string, { territories: number; available: number; subscribed: number; reserved: number; allocated: number; mw: number }> = {
@@ -70,13 +71,16 @@ export default function TerritoryMapPage() {
     }
   }, []);
 
-  // Resolve GeoJSON name to our data key
-  const resolveStateName = useCallback((geoName: string) => {
-    return nameMap[geoName] || geoName;
+  // Resolve GeoJSON state label from multiple dataset schemas to our data key
+  const resolveStateName = useCallback((geoProperties: Record<string, unknown>) => {
+    const rawName = String(
+      geoProperties.st_nm ?? geoProperties.NAME_1 ?? geoProperties.name ?? ''
+    ).trim();
+    return nameMap[rawName] || rawName;
   }, []);
 
-  const getIndiaStateColor = (geoName: string) => {
-    const stateName = resolveStateName(geoName);
+  const getIndiaStateColor = (geoProperties: Record<string, unknown>) => {
+    const stateName = resolveStateName(geoProperties);
     const data = indiaStateData[stateName];
     if (!data) return 'hsl(220 60% 75% / 0.3)';
     const isHovered = hoveredState === stateName;
