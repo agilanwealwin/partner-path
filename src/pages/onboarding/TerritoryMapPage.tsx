@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import {
   Search, Plus, Minus, Crosshair, ChevronLeft, MapPinned,
   Filter, Activity, Monitor, SignalHigh, Network, Rocket,
