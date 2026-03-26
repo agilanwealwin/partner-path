@@ -60,7 +60,7 @@ export default function TerritoryMapPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [center, setCenter] = useState<[number, number]>([78, 22]);
+  const [center, setCenter] = useState<[number, number]>([82, 22]);
   const mapContainerRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
@@ -89,7 +89,7 @@ export default function TerritoryMapPage() {
 
   const handleZoomIn = () => setZoom(z => Math.min(8, z * 1.5));
   const handleZoomOut = () => setZoom(z => Math.max(1, z / 1.5));
-  const handleReset = () => { setZoom(1); setCenter([78, 22]); };
+  const handleReset = () => { setZoom(1); setCenter([82, 22]); };
 
   const stateData = hoveredState ? indiaStateData[hoveredState] : null;
   const showTooltip = hoveredState || hoveredCountry;
@@ -303,9 +303,9 @@ export default function TerritoryMapPage() {
           {/* Map */}
           <ComposableMap
             projection="geoMercator"
-            projectionConfig={{ center: [78, 22], scale: 800 }}
-            width={900}
-            height={700}
+            projectionConfig={{ center: [82, 22], scale: 140 }}
+            width={800}
+            height={600}
             className="w-full h-full"
           >
             <ZoomableGroup
@@ -315,7 +315,7 @@ export default function TerritoryMapPage() {
                 setCenter(coordinates as [number, number]);
                 setZoom(z);
               }}
-              minZoom={1}
+              minZoom={0.8}
               maxZoom={8}
             >
               {/* World countries (grey, non-interactive except tooltip) */}
