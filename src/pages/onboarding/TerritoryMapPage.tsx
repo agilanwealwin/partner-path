@@ -12,9 +12,15 @@ import {
   Geography,
   ZoomableGroup
 } from 'react-simple-maps';
-import indiaStatesGeo from '@/data/india-states.json';
-
 const WORLD_GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
+const INDIA_GEO_URL = '/india-states-geo.json';
+
+// Map GeoJSON NAME_1 values to our data keys
+const nameMap: Record<string, string> = {
+  'Jammu and Kashmir': 'Jammu & Kashmir',
+  'Orissa': 'Odisha',
+  'Uttaranchal': 'Uttarakhand',
+};
 
 const indiaStateData: Record<string, { territories: number; available: number; subscribed: number; reserved: number; allocated: number; mw: number }> = {
   'Jammu & Kashmir': { territories: 20, available: 10, subscribed: 2, reserved: 5, allocated: 3, mw: 700 },
