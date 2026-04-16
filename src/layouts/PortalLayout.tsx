@@ -16,20 +16,20 @@ export default function PortalLayout() {
 
   return (
     <OnboardingProvider>
-      <div className="flex min-h-screen w-full bg-background transition-colors duration-200">
+      <div className="flex min-h-screen w-full bg-background transition-colors duration-200 overflow-x-hidden">
         <PortalSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
-        <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
           {/* Topbar */}
-          <header className="h-16 border-b border-border flex items-center px-4 md:px-6 gap-4 shrink-0 bg-surface">
+          <header className="h-16 border-b border-border flex items-center px-3 md:px-6 gap-2 sm:gap-4 shrink-0 bg-surface">
             {/* Mobile Sidebar Toggle */}
             <button
               onClick={() => setIsSidebarOpen(true)}
-              className="xl:hidden p-2 rounded-xl border border-border bg-surface-2 text-muted-foreground hover:text-foreground transition-all"
+              className="xl:hidden p-2 rounded-xl border border-border bg-surface-2 text-muted-foreground hover:text-foreground transition-all shrink-0"
             >
               <Menu size={20} />
             </button>
 
-            <div className="hidden md:flex items-center gap-1 text-[13px] text-muted-foreground">
+            <div className="hidden lg:flex items-center gap-1 text-[13px] text-muted-foreground shrink-0">
               <span>DeLEN Protocol</span>
               {pathParts.slice(1).map((part, i) => (
                 <React.Fragment key={i}>
@@ -39,17 +39,17 @@ export default function PortalLayout() {
               ))}
             </div>
 
-            <div className="flex-1 flex justify-center px-2">
+            <div className="flex-1 flex justify-center px-1 sm:px-2">
               <button
                 onClick={() => setIsSearchOpen(true)}
-                className="flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-surface-2 border border-border w-full max-w-96 text-muted-foreground hover:border-primary/50 hover:bg-surface-3 transition-all group"
+                className="flex items-center justify-between gap-2 px-2.5 sm:px-3 py-2 rounded-xl bg-surface-2 border border-border w-full max-w-96 text-muted-foreground hover:border-primary/50 hover:bg-surface-3 transition-all group"
               >
                 <div className="flex items-center gap-2">
-                  <Search size={15} className="group-hover:text-primary transition-colors" />
-                  <span className="text-[13px] hidden sm:inline">Search projects, nodes, documents...</span>
-                  <span className="text-[13px] sm:hidden">Search...</span>
+                  <Search size={15} className="group-hover:text-primary transition-colors shrink-0" />
+                  <span className="text-[13px] hidden lg:inline">Search projects, nodes, documents...</span>
+                  <span className="text-[13px] hidden sm:inline lg:hidden">Search...</span>
                 </div>
-                <div className="hidden sm:flex items-center gap-1 px-1.5 py-0.5 rounded border border-border bg-surface text-[10px] font-bold select-none">
+                <div className="hidden sm:flex items-center gap-1 px-1.5 py-0.5 rounded border border-border bg-surface text-[10px] font-bold select-none shrink-0">
                   {navigator.platform.indexOf('Mac') > -1 ? '⌘K' : 'Ctrl+K'}
                 </div>
               </button>
@@ -62,22 +62,22 @@ export default function PortalLayout() {
                 <span className="text-xs text-status-green font-medium">Ethereum Mainnet</span>
               </div>
 
-              {/* Wallet Address - Shortened on mobile */}
-              <div className="flex items-center gap-2 font-mono text-[12px] px-2 md:px-3.5 py-1.5 rounded-full bg-surface-2 border border-border text-muted-foreground">
+              {/* Wallet Address - Shortened on mobile, hidden on very small screens */}
+              <div className="hidden sm:flex items-center gap-2 font-mono text-[12px] px-2 md:px-3.5 py-1.5 rounded-full bg-surface-2 border border-border text-muted-foreground shrink-0 border-dashed md:border-solid">
                 <Wallet size={14} className="text-muted-foreground shrink-0" />
-                <span className="hidden sm:inline">{partnerInfo.wallet}</span>
-                <span className="sm:hidden">{partnerInfo.wallet.slice(0, 4)}...{partnerInfo.wallet.slice(-4)}</span>
+                <span className="hidden xl:inline">{partnerInfo.wallet}</span>
+                <span className="xl:hidden">{partnerInfo.wallet.slice(0, 4)}...{partnerInfo.wallet.slice(-4)}</span>
               </div>
 
               <div className="flex items-center gap-1">
-                {/* Wallet Link -> Settings */}
-                <Link to="/partner/settings" className="p-2 rounded-full hover:bg-surface-2 transition-colors text-muted-foreground hover:text-foreground">
+                {/* Wallet Link -> Settings - Hidden on mobile */}
+                <Link to="/partner/settings" className="hidden sm:inline-flex p-2 rounded-full hover:bg-surface-2 transition-colors text-muted-foreground hover:text-foreground shrink-0">
                   <Wallet size={18} />
                 </Link>
 
                 {/* Notification Dropdown */}
                 <div className="relative group">
-                  <button className="relative p-2 rounded-full hover:bg-surface-2 transition-colors text-muted-foreground hover:text-foreground">
+                  <button className="relative p-2 rounded-full hover:bg-surface-2 transition-colors text-muted-foreground hover:text-foreground shrink-0">
                     <Bell size={18} />
                     <span className="absolute top-1.5 right-1.5 w-3.5 h-3.5 rounded-full bg-primary text-[9px] text-primary-foreground flex items-center justify-center font-bold">2</span>
                   </button>
@@ -115,20 +115,20 @@ export default function PortalLayout() {
                 </div>
               </div>
 
-              {/* Actions Divider */}
-              <div className="w-[1px] h-5 bg-border mx-1"></div>
+              {/* Actions Divider - Hidden on mobile */}
+              <div className="hidden sm:block w-[1px] h-5 bg-border mx-1"></div>
 
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1 sm:gap-3">
                 {/* Theme Toggle */}
                 <button
                   onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                  className="p-2 rounded-full hover:bg-surface-2 transition-colors text-muted-foreground hover:text-foreground"
+                  className="p-1.5 sm:p-2 rounded-full hover:bg-surface-2 transition-colors text-muted-foreground hover:text-foreground shrink-0"
                 >
-                  {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                  {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
                 </button>
 
                 {/* User Avatar -> Settings */}
-                <Link to="/partner/settings" className="w-8 h-8 rounded-full bg-accent-soft border border-primary/20 hover:border-primary transition-colors flex items-center justify-center font-display font-medium text-[13px] text-primary">
+                <Link to="/partner/settings" className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-accent-soft border border-primary/20 hover:border-primary transition-colors flex items-center justify-center font-display font-medium text-[11px] sm:text-[13px] text-primary shrink-0">
                   {partnerInfo.avatar}
                 </Link>
               </div>

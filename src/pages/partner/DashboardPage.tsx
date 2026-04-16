@@ -67,8 +67,8 @@ export default function DashboardPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="font-display font-bold text-xl md:text-2xl text-foreground">Partner Dashboard</h1>
-          <p className="text-sm text-muted-foreground mt-1">Portfolio overview — Q1 2025 · Synced with DeLEN Protocol v2.4</p>
+          <h1 className="font-display font-bold text-xl md:text-2xl text-foreground truncate sm:whitespace-normal">Partner Dashboard</h1>
+          <p className="text-sm text-muted-foreground mt-1 leading-relaxed">Portfolio overview — Q1 2025 <span className="hidden sm:inline">·</span> <br className="sm:hidden" /> Synced with DeLEN Protocol v2.4</p>
         </div>
 
         <DropdownMenu>
@@ -177,7 +177,7 @@ export default function DashboardPage() {
                         <sc.icon size={10} /> {p.status}
                       </span>
                     </div>
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 mt-3 text-[11px]">
+                    <div className="flex flex-col xs:flex-row flex-wrap items-start xs:items-center gap-2 sm:gap-4 mt-3 text-[11px]">
                       <div><span className="text-muted-foreground">Capacity:</span> <span className="text-foreground font-mono">{p.capacity}</span></div>
                       <div><span className="text-muted-foreground">Nodes:</span> <span className="text-foreground font-mono">{p.nodes}</span></div>
                       <div><span className="text-muted-foreground">Energy:</span> <span className="text-foreground font-mono">{p.energyYTD}</span></div>
@@ -199,7 +199,7 @@ export default function DashboardPage() {
                 <span className="w-1.5 h-1.5 rounded-full bg-status-green" /> Mainnet
               </span>
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <p className="text-[10px] text-muted-foreground uppercase">Network Nodes</p>
                 <p className="font-display font-bold text-foreground">12,481</p>
