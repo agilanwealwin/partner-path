@@ -250,22 +250,22 @@ export default function TerritoryExplorerPage() {
     return (
         <div className="h-[calc(100vh-64px)] flex flex-col bg-background">
             {/* Page Header with Tab Switcher */}
-            <header className="h-auto min-h-[64px] shrink-0 border-b border-border bg-surface flex flex-col sm:flex-row items-start sm:items-center justify-between px-4 md:px-6 py-3 gap-3">
-                <div className="flex items-center gap-4">
-                    <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
+            <header className="h-auto min-h-[64px] shrink-0 border-b border-border bg-surface flex flex-col md:flex-row items-center justify-between px-4 md:px-6 py-3 gap-4">
+                <div className="flex items-center gap-4 w-full md:w-auto">
+                    <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
                         <Database size={20} className="text-primary" />
                     </div>
-                    <div>
-                        <h1 className="text-sm font-bold text-foreground">Infrastructure Registry</h1>
-                        <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-mono">DeLEN Protocol · v1.4.2</p>
+                    <div className="min-w-0">
+                        <h1 className="text-sm font-bold text-foreground truncate">Infrastructure Registry</h1>
+                        <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-mono truncate">DeLEN Protocol · v1.4.2</p>
                     </div>
                 </div>
 
-                <div className="flex items-center gap-2 p-1 bg-surface-2 border border-border rounded-xl">
+                <div className="flex items-center gap-2 p-1 bg-surface-2 border border-border rounded-xl w-full sm:w-auto overflow-x-auto no-scrollbar">
                     <button
                         onClick={() => setViewMode('map')}
                         className={cn(
-                            "flex items-center gap-2 px-4 py-1.5 rounded-lg text-[11px] font-bold transition-all",
+                            "flex items-center justify-center gap-2 px-4 py-1.5 rounded-lg text-[11px] font-bold transition-all flex-1 sm:flex-none whitespace-nowrap",
                             viewMode === 'map' ? "bg-surface shadow-md text-primary" : "text-muted-foreground hover:text-foreground"
                         )}
                     >
@@ -274,7 +274,7 @@ export default function TerritoryExplorerPage() {
                     <button
                         onClick={() => setViewMode('registry')}
                         className={cn(
-                            "flex items-center gap-2 px-4 py-1.5 rounded-lg text-[11px] font-bold transition-all",
+                            "flex items-center justify-center gap-2 px-4 py-1.5 rounded-lg text-[11px] font-bold transition-all flex-1 sm:flex-none whitespace-nowrap",
                             viewMode === 'registry' ? "bg-surface shadow-md text-primary" : "text-muted-foreground hover:text-foreground"
                         )}
                     >
@@ -282,8 +282,8 @@ export default function TerritoryExplorerPage() {
                     </button>
                 </div>
 
-                <div className="flex items-center gap-3">
-                    <Button variant="outline" size="sm" className="h-9 text-[11px] font-bold">
+                <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+                    <Button variant="outline" size="sm" className="h-9 text-[11px] font-bold w-full sm:w-auto">
                         <Download size={14} className="mr-2" /> Export
                     </Button>
                 </div>
@@ -497,24 +497,24 @@ export default function TerritoryExplorerPage() {
                     ) : (
                         <div className="w-full h-full flex flex-col p-6 animate-in slide-in-from-bottom-4 duration-500 overflow-hidden bg-background">
                             {/* Registry Table Toolbar */}
-                            <div className="flex items-center justify-between mb-6">
-                                <div className="flex items-center gap-4">
-                                    <div className="relative w-72">
+                            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 gap-4">
+                                <div className="flex flex-col sm:flex-row sm:items-center gap-4 w-full lg:w-auto">
+                                    <div className="relative w-full sm:w-72">
                                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={14} />
                                         <input
                                             value={searchQuery}
                                             onChange={e => setSearchQuery(e.target.value)}
                                             placeholder="Search by ID, Name or State..."
-                                            className="w-full h-9 bg-surface border border-border rounded-lg pl-9 pr-4 text-[11px] focus:outline-none"
+                                            className="w-full h-9 bg-surface border border-border rounded-lg pl-9 pr-4 text-[11px] focus:outline-none focus:ring-1 focus:ring-primary/40 transition-all"
                                         />
                                     </div>
-                                    <div className="flex items-center gap-1.5 p-1 bg-surface-2 rounded-lg border border-border">
+                                    <div className="flex items-center gap-1.5 p-1 bg-surface-2 rounded-lg border border-border overflow-x-auto no-scrollbar">
                                         {['all', 'available', 'subscribed', 'reserved'].map(f => (
                                             <button
                                                 key={f}
                                                 onClick={() => setStatusFilter(f)}
                                                 className={cn(
-                                                    "px-3 py-1 rounded-md text-[10px] font-bold uppercase transition-all tracking-wide",
+                                                    "px-3 py-1 rounded-md text-[10px] font-bold uppercase transition-all tracking-wide whitespace-nowrap",
                                                     statusFilter === f ? "bg-surface text-primary shadow-sm" : "text-muted-foreground hover:text-foreground"
                                                 )}
                                             >
@@ -523,23 +523,24 @@ export default function TerritoryExplorerPage() {
                                         ))}
                                     </div>
                                 </div>
-                                <div className="text-[11px] font-bold text-muted-foreground">
-                                    Showing <span className="text-foreground">{filteredTerritories.length}</span> of {territories.length} territories
+                                <div className="text-[11px] font-bold text-muted-foreground flex items-center gap-1">
+                                    <span className="lg:hidden">Results: </span>
+                                    <span>Showing <span className="text-foreground">{filteredTerritories.length}</span> of {territories.length}</span>
                                 </div>
                             </div>
 
                             {/* Registry Table Content */}
-                            <div className="flex-1 bg-surface border border-border rounded-xl shadow-sm overflow-hidden flex flex-col">
-                                <div className="overflow-y-auto flex-1">
-                                    <table className="w-full text-left border-collapse">
+                            <div className="flex-1 bg-surface border border-border rounded-xl shadow-sm overflow-hidden flex flex-col min-h-0">
+                                <div className="overflow-auto flex-1 no-scrollbar">
+                                    <table className="w-full text-left border-collapse min-w-[800px] sm:min-w-0">
                                         <thead className="sticky top-0 bg-surface-2 border-b border-border z-10">
                                             <tr className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
-                                                <th className="px-6 py-4">Territory ID</th>
-                                                <th className="px-6 py-4">Information</th>
-                                                <th className="px-6 py-4">Status</th>
-                                                <th className="px-6 py-4">Protocol Data</th>
-                                                <th className="px-6 py-4">Risk Profile</th>
-                                                <th className="px-6 py-4 text-right">Action</th>
+                                                <th className="px-4 md:px-6 py-4">Territory ID</th>
+                                                <th className="px-4 md:px-6 py-4">Information</th>
+                                                <th className="px-4 md:px-6 py-4">Status</th>
+                                                <th className="px-4 md:px-6 py-4 hidden sm:table-cell">Protocol Data</th>
+                                                <th className="px-4 md:px-6 py-4 hidden lg:table-cell">Risk Profile</th>
+                                                <th className="px-4 md:px-6 py-4 text-right">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-border/50">
@@ -560,24 +561,24 @@ export default function TerritoryExplorerPage() {
                                                             {t.status}
                                                         </span>
                                                     </td>
-                                                    <td className="px-6 py-4">
+                                                    <td className="px-4 md:px-6 py-4 hidden sm:table-cell">
                                                         <div className="flex items-center gap-6">
                                                             <div>
                                                                 <p className="text-[10px] font-bold text-foreground">{t.mwPotential} MW</p>
                                                                 <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest leading-none mt-0.5">Capacity</p>
                                                             </div>
-                                                            <div>
+                                                            <div className="hidden lg:block">
                                                                 <p className="text-[10px] font-bold text-foreground">{t.adoption}</p>
                                                                 <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest leading-none mt-0.5">Adoption</p>
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td className="px-6 py-4">
+                                                    <td className="px-4 md:px-6 py-4 hidden lg:table-cell">
                                                         <span className={cn("px-2 py-0.5 rounded text-[9px] font-bold uppercase", riskConfig[t.risk].textClass, riskConfig[t.risk].bgClass.replace('bg-', 'bg-opacity-20 bg-'))}>
                                                             {t.risk} Risk
                                                         </span>
                                                     </td>
-                                                    <td className="px-6 py-4 text-right">
+                                                    <td className="px-4 md:px-6 py-4 text-right">
                                                         {t.status === 'available' ? (
                                                             <Button
                                                                 size="sm"
