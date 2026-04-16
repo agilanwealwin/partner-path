@@ -67,7 +67,7 @@ export default function DashboardPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="font-display font-bold text-2xl text-foreground">Partner Dashboard</h1>
+          <h1 className="font-display font-bold text-xl md:text-2xl text-foreground">Partner Dashboard</h1>
           <p className="text-sm text-muted-foreground mt-1">Portfolio overview — Q1 2025 · Synced with DeLEN Protocol v2.4</p>
         </div>
 
@@ -119,7 +119,7 @@ export default function DashboardPage() {
               <Coins size={20} className="text-status-orange" />
               <span className="section-label text-status-orange">DLN REWARDS EARNED YTD</span>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between">
               <div>
                 <p className="font-display font-bold text-3xl text-status-orange animate-count-up">{partnerInfo.dlnEarnedYTD} DLN</p>
                 <p className="text-xs text-muted-foreground mt-1">+{partnerInfo.dlnThisMonth} DLN this month · ≈ $284,600 USD</p>
@@ -177,7 +177,7 @@ export default function DashboardPage() {
                         <sc.icon size={10} /> {p.status}
                       </span>
                     </div>
-                    <div className="flex items-center gap-4 mt-3 text-[11px]">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 mt-3 text-[11px]">
                       <div><span className="text-muted-foreground">Capacity:</span> <span className="text-foreground font-mono">{p.capacity}</span></div>
                       <div><span className="text-muted-foreground">Nodes:</span> <span className="text-foreground font-mono">{p.nodes}</span></div>
                       <div><span className="text-muted-foreground">Energy:</span> <span className="text-foreground font-mono">{p.energyYTD}</span></div>

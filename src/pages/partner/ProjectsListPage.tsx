@@ -117,7 +117,7 @@ export default function ProjectsListPage() {
       </div>
 
       <div className="rounded-card border border-border overflow-x-auto">
-        <table className="w-full text-[12px]">
+        <table className="w-full text-[12px] min-w-[900px]">
           <thead>
             <tr className="border-b border-border bg-surface">
               {['Project', 'Location', 'Type', 'Capacity', 'Status', 'Nodes', 'Energy (YTD)', 'DLN Earned', 'Actions'].map(h => (
