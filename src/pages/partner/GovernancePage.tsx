@@ -42,7 +42,7 @@ export default function GovernancePage() {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 md:p-6 space-y-4 md:space-y-6">
       <div>
         <h1 className="font-display font-bold text-2xl text-foreground">Governance</h1>
         <p className="text-sm text-muted-foreground mt-1">Protocol proposals and governance documents · Pulse/Prime voting</p>

@@ -62,9 +62,9 @@ export default function TerritoryRegistryPage() {
 
     return (
         <TooltipProvider>
-            <div className="w-full min-h-screen bg-slate-50/50 p-8 pt-6 font-sans selection:bg-indigo-100 animate-in fade-in duration-700">
+            <div className="w-full min-h-screen bg-slate-50/50 p-4 md:p-8 pt-4 md:pt-6 font-sans selection:bg-indigo-100 animate-in fade-in duration-700">
                 {/* Institutional Header with Navigation */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 px-2">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6 mb-6 md:mb-8 px-2">
                     <div className="space-y-1">
                         <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Territory Registry</h1>
                         <p className="text-[12px] text-slate-500 font-medium">
@@ -76,7 +76,7 @@ export default function TerritoryRegistryPage() {
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                         <Button variant="outline" size="sm" className="h-9 px-4 rounded-lg font-bold text-[11px] bg-white border-slate-200 text-slate-600 shadow-sm">
                             <Download size={14} className="mr-2" /> Export CSV
                         </Button>
@@ -90,7 +90,7 @@ export default function TerritoryRegistryPage() {
                 </div>
 
                 {/* Summary Statistics Grid (Figma Style) */}
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 mb-6 md:mb-8">
                     {stats.map((s, i) => (
                         <div key={i} className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow group relative overflow-hidden">
                             <div className="flex items-start justify-between relative z-10">
@@ -111,9 +111,9 @@ export default function TerritoryRegistryPage() {
                 </div>
 
                 {/* Advanced Filter Bar (Figma Style) */}
-                <div className="bg-white border border-slate-200 rounded-xl shadow-sm mb-6 overflow-hidden">
+                <div className="bg-white border border-slate-200 rounded-xl shadow-sm mb-4 md:mb-6 overflow-hidden">
                     <div className="p-2 flex flex-wrap items-center gap-2">
-                        <div className="relative flex-1 min-w-[300px]">
+                        <div className="relative flex-1 min-w-[200px]">
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
                             <input
                                 type="text"
@@ -185,7 +185,7 @@ export default function TerritoryRegistryPage() {
 
                 {/* Conservative Figma Registry Cards */}
                 {view === 'cards' ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
                         {filtered.map((t) => {
                             const sc = (statusConfig as any)[t.status];
                             const rc = (riskConfig as any)[t.risk];

@@ -250,7 +250,7 @@ export default function TerritoryExplorerPage() {
     return (
         <div className="h-[calc(100vh-64px)] flex flex-col bg-background">
             {/* Page Header with Tab Switcher */}
-            <header className="h-16 shrink-0 border-b border-border bg-surface flex items-center justify-between px-6">
+            <header className="h-auto min-h-[64px] shrink-0 border-b border-border bg-surface flex flex-col sm:flex-row items-start sm:items-center justify-between px-4 md:px-6 py-3 gap-3">
                 <div className="flex items-center gap-4">
                     <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
                         <Database size={20} className="text-primary" />
@@ -292,7 +292,7 @@ export default function TerritoryExplorerPage() {
             <div className="flex-1 flex overflow-hidden">
                 {/* Conditional Sidebar (only for map mode or for registration) */}
                 {viewMode === 'map' ? (
-                    <aside className="w-[320px] shrink-0 border-r border-border bg-surface flex flex-col">
+                    <aside className="hidden lg:flex w-[320px] shrink-0 border-r border-border bg-surface flex-col">
                         <div className="p-6 border-b border-border space-y-4">
                             <div className="relative">
                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={14} />

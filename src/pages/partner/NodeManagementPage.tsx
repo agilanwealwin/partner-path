@@ -74,13 +74,13 @@ export default function NodeManagementPage() {
   };
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-start justify-between">
+    <div className="p-4 md:p-6 space-y-4 md:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
         <div>
           <h1 className="font-display font-bold text-2xl text-foreground">Node Management</h1>
           <p className="text-sm text-muted-foreground mt-1">Edge node registry across all projects · DeLEN Protocol v2.4 · Last sync 2 min ago</p>
         </div>
-        <div className="flex gap-3 items-center">
+        <div className="flex gap-2 sm:gap-3 items-center flex-wrap">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="gap-2 bg-surface shadow-sm border-border/50 hover:border-primary/30 transition-all">
@@ -106,7 +106,7 @@ export default function NodeManagementPage() {
       </div>
 
       {/* Fleet KPIs */}
-      <div className="grid grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
         {fleetKpis.map(k => (
           <div key={k.label} className="rounded-card bg-surface p-4 shadow-surface border border-border/50">
             <span className="section-label">{k.label}</span>
@@ -117,7 +117,7 @@ export default function NodeManagementPage() {
       </div>
 
       {/* Search & Filter */}
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
         <div className="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-surface border border-border flex-1 max-w-sm focus-within:border-primary/50 transition-colors">
           <Search size={14} className="text-muted-foreground" />
           <input
@@ -150,8 +150,8 @@ export default function NodeManagementPage() {
       </div>
 
       {/* Table */}
-      <div className="rounded-card border border-border overflow-hidden">
-        <table className="w-full text-[12px]">
+      <div className="rounded-card border border-border overflow-x-auto">
+        <table className="w-full text-[12px] min-w-[800px]">
           <thead>
             <tr className="border-b border-border bg-surface">
               {['Node ID', 'Project', 'Location', 'Type', 'Status', 'Firmware', 'Last Sync', 'Health', 'Actions'].map(h => (
@@ -229,7 +229,7 @@ export default function NodeManagementPage() {
       </div>
 
       {/* Fleet Health */}
-      <div className="flex gap-4">
+      <div className="flex flex-col lg:flex-row gap-4">
         <div className="rounded-card bg-surface p-5 shadow-surface flex-1">
           <span className="section-label mb-3 block">Fleet Health Score</span>
           <div className="flex items-center gap-6">

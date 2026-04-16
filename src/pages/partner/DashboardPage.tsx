@@ -63,11 +63,11 @@ export default function DashboardPage() {
   const statuses = ['All', ...Object.keys(projectStatusConfig)];
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 md:p-6 space-y-4 md:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="font-display font-bold text-2xl text-foreground">Partner Dashboard</h1>
+          <h1 className="font-display font-bold text-xl md:text-2xl text-foreground">Partner Dashboard</h1>
           <p className="text-sm text-muted-foreground mt-1">Portfolio overview — Q1 2025 · Synced with DeLEN Protocol v2.4</p>
         </div>
 
@@ -93,11 +93,11 @@ export default function DashboardPage() {
         </DropdownMenu>
       </div>
 
-      <div className="flex gap-6">
+      <div className="flex flex-col xl:flex-row gap-4 xl:gap-6">
         {/* Main Content */}
         <div className="flex-1 space-y-6 min-w-0">
           {/* KPIs */}
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {kpis.map((kpi) => (
               <div key={kpi.label} className="rounded-card bg-surface p-4 shadow-surface">
                 <div className="flex items-center gap-2 mb-2">
@@ -119,7 +119,7 @@ export default function DashboardPage() {
               <Coins size={20} className="text-status-orange" />
               <span className="section-label text-status-orange">DLN REWARDS EARNED YTD</span>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between">
               <div>
                 <p className="font-display font-bold text-3xl text-status-orange animate-count-up">{partnerInfo.dlnEarnedYTD} DLN</p>
                 <p className="text-xs text-muted-foreground mt-1">+{partnerInfo.dlnThisMonth} DLN this month · ≈ $284,600 USD</p>
@@ -157,7 +157,7 @@ export default function DashboardPage() {
                 <Button variant="link" size="xs" onClick={() => navigate('/partner/projects')} className="text-primary hover:text-primary/80">View All</Button>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {filteredProjects.slice(0, 4).map((p) => {
                 const sc = projectStatusConfig[p.status];
                 const Icon = iconMap[p.icon];
@@ -177,7 +177,7 @@ export default function DashboardPage() {
                         <sc.icon size={10} /> {p.status}
                       </span>
                     </div>
-                    <div className="flex items-center gap-4 mt-3 text-[11px]">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 mt-3 text-[11px]">
                       <div><span className="text-muted-foreground">Capacity:</span> <span className="text-foreground font-mono">{p.capacity}</span></div>
                       <div><span className="text-muted-foreground">Nodes:</span> <span className="text-foreground font-mono">{p.nodes}</span></div>
                       <div><span className="text-muted-foreground">Energy:</span> <span className="text-foreground font-mono">{p.energyYTD}</span></div>
@@ -190,7 +190,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Right Sidebar */}
-        <div className="w-[280px] shrink-0 space-y-4">
+        <div className="w-full xl:w-[280px] shrink-0 space-y-4">
           {/* Protocol Status */}
           <div className="rounded-card bg-surface p-4 shadow-surface">
             <div className="flex items-center justify-between mb-3">

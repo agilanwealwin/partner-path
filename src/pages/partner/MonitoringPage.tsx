@@ -319,13 +319,13 @@ export default function MonitoringPage() {
   const filteredAlerts = statusFilter === 'All' ? alerts : alerts.filter(a => a.status === statusFilter);
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-start justify-between">
+    <div className="p-4 md:p-6 space-y-4 md:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
         <div>
           <h1 className="font-display font-bold text-2xl text-foreground">O&M Monitoring</h1>
           <p className="text-sm text-muted-foreground mt-1">Operations and maintenance overview · All projects</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="gap-2 bg-surface shadow-sm border-border/50 hover:border-primary/30 transition-all">
@@ -359,11 +359,11 @@ export default function MonitoringPage() {
       )}
 
       {/* Portfolio Performance */}
-      <div className="rounded-card bg-surface shadow-surface overflow-hidden">
+      <div className="rounded-card bg-surface shadow-surface overflow-x-auto">
         <div className="px-5 py-3 border-b border-border">
           <span className="section-label">Portfolio Performance</span>
         </div>
-        <table className="w-full text-[12px]">
+        <table className="w-full text-[12px] min-w-[600px]">
           <thead>
             <tr className="border-b border-border">
               {['Project', 'Capacity', 'PR', 'CUF', 'Availability', 'Status'].map(h => (
@@ -392,13 +392,13 @@ export default function MonitoringPage() {
       </div>
 
       {/* Alerts + Maintenance */}
-      <div className="flex gap-4">
+      <div className="flex flex-col lg:flex-row gap-4">
         {/* Alerts */}
         <div className="flex-1 space-y-3 min-w-0">
           <div className="flex items-center justify-between">
             <span className="section-label">Active Alerts</span>
             {/* Status filter pills */}
-            <div className="flex gap-1">
+            <div className="flex gap-1 flex-wrap">
               {(['All', 'Open', 'Acknowledged', 'Dispatched', 'Completed'] as const).map(f => (
                 <button
                   key={f}
@@ -430,7 +430,7 @@ export default function MonitoringPage() {
         </div>
 
         {/* Maintenance Schedule */}
-        <div className="w-[280px] shrink-0">
+        <div className="w-full lg:w-[280px] shrink-0">
           <span className="section-label mb-3 block">Maintenance Schedule</span>
           <div className="rounded-card bg-surface p-4 shadow-surface space-y-3">
             {maintenanceSchedule.map((m, i) => (

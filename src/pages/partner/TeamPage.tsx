@@ -13,8 +13,8 @@ const members = [
 
 export default function TeamPage() {
   return (
-    <div className="p-6 max-w-[900px] mx-auto space-y-6">
-      <div className="flex items-start justify-between">
+    <div className="p-4 md:p-6 max-w-[900px] mx-auto space-y-4 md:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
         <div>
           <h1 className="font-display font-bold text-2xl text-foreground">Team Management</h1>
           <p className="text-sm text-muted-foreground mt-1">{members.length} team members · SunVolt EPC Ltd.</p>
@@ -22,7 +22,7 @@ export default function TeamPage() {
         <Button size="sm"><UserPlus size={14} /> Invite Member</Button>
       </div>
 
-      <div className="rounded-card border border-border overflow-hidden">
+      <div className="rounded-card border border-border overflow-x-auto">
         <table className="w-full text-[12px]">
           <thead>
             <tr className="border-b border-border bg-surface">
