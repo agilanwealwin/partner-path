@@ -11,9 +11,9 @@ export default function OnboardingLayout() {
     <OnboardingProvider>
       <div className="flex h-screen w-full bg-background transition-colors duration-300 overflow-hidden relative">
         <OnboardingSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
-        <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-background">
           {/* Mobile Header for Onboarding */}
-          <header className="xl:hidden h-14 border-b border-border flex items-center px-4 shrink-0 bg-surface">
+          <header className="xl:hidden h-14 border-b border-border flex items-center px-4 shrink-0 bg-surface/80 backdrop-blur-md z-40 sticky top-0">
             <button
               onClick={() => setIsSidebarOpen(true)}
               className="p-2 rounded-lg border border-border bg-surface-2 text-muted-foreground hover:text-foreground transition-all"

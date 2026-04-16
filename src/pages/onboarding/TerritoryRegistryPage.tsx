@@ -2,7 +2,8 @@ import React, { useState, useMemo } from 'react';
 import {
     Search, Plus, Globe, Eye, Check, Lock, Info,
     Activity, Table2, LayoutGrid, X, ChevronRight, Filter, Download,
-    Database, Users, Clock, Zap, Map as MapIcon, MoreHorizontal, ExternalLink
+    Database, Users, Clock, Zap, Map as MapIcon, MoreHorizontal, ExternalLink,
+    BarChart3, ShieldCheck, Globe2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { territories, statusConfig, riskConfig, type Territory } from '@/data/mockData';
@@ -10,6 +11,7 @@ import TerritoryRequestModal from '@/components/TerritoryRequestModal';
 import { cn } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Input } from '@/components/ui/input';
 
 export default function TerritoryRegistryPage() {
     const navigate = useNavigate();
@@ -44,14 +46,6 @@ export default function TerritoryRegistryPage() {
         });
     }, [search, stateFilter, statusFilter, riskFilter, adoptionFilter]);
 
-    const stats = [
-        { label: 'Total Territories', value: '234', sub: '36 states & UTs', icon: Database, color: 'text-indigo-600', bg: 'bg-indigo-50' },
-        { label: 'Available', value: '162', sub: 'Open for subscription', icon: MapIcon, color: 'text-blue-600', bg: 'bg-blue-50' },
-        { label: 'Subscribed', value: '40', sub: 'Pending review', icon: Clock, color: 'text-purple-600', bg: 'bg-purple-50' },
-        { label: 'Reserved', value: '22', sub: 'Admin hold', icon: Info, color: 'text-orange-600', bg: 'bg-orange-50' },
-        { label: 'Total MW Potential', value: '43.2 GW', sub: 'Across all territories', icon: Zap, color: 'text-emerald-600', bg: 'bg-emerald-50' },
-    ];
-
     const resetFilters = () => {
         setSearch('');
         setStateFilter('all');
@@ -62,60 +56,57 @@ export default function TerritoryRegistryPage() {
 
     return (
         <TooltipProvider>
-            <div className="w-full min-h-screen bg-slate-50/50 p-4 md:p-8 pt-4 md:pt-6 font-sans selection:bg-indigo-100 animate-in fade-in duration-700">
-                {/* Institutional Header with Navigation */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6 mb-6 md:mb-8 px-2">
+            <div className="w-full min-h-screen bg-slate-50/50 p-4 md:p-10 mx-auto space-y-8 md:space-y-10 font-sans selection:bg-indigo-100 animate-in fade-in duration-700">
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-border pb-6">
                     <div className="space-y-1">
-                        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Territory Registry</h1>
-                        <p className="text-[12px] text-slate-500 font-medium">
+                        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Territory Registry</h1>
+                        <p className="text-[12px] sm:text-sm text-slate-500 font-medium">
                             234 territories across 36 states & UTs · DeLEN Protocol Infrastructure Network
                         </p>
-                        <div className="flex items-center gap-2 mt-2">
-                            <div className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
-                            <span className="text-[10px] font-bold text-orange-500 uppercase tracking-widest">Connecting to database...</span>
-                        </div>
                     </div>
-
                     <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                        <Button variant="outline" size="sm" className="h-9 px-4 rounded-lg font-bold text-[11px] bg-white border-slate-200 text-slate-600 shadow-sm">
-                            <Download size={14} className="mr-2" /> Export CSV
+                        <Button variant="outline" size="sm" className="flex-1 sm:flex-none h-10 px-4 rounded-xl border-border bg-surface-2 hover:bg-surface-3 transition-colors">
+                            <Download size={14} className="mr-2 opacity-50" /> Export CSV
                         </Button>
-                        <Button variant="outline" size="sm" className="h-9 px-4 rounded-lg font-bold text-[11px] bg-white border-slate-200 text-slate-600 shadow-sm" onClick={() => navigate('/onboarding/infra-partner/territory-map')}>
-                            <MapIcon size={14} className="mr-2" /> View on Map
+                        <Button variant="outline" size="sm" className="flex-1 sm:flex-none h-10 px-4 rounded-xl border-border bg-surface-2 hover:bg-surface-3 transition-colors" onClick={() => navigate('/onboarding/infra-partner/territory-map')}>
+                            <MapIcon size={14} className="mr-2 opacity-50" /> View Map
                         </Button>
-                        <Button variant="default" size="sm" className="h-9 px-4 rounded-lg font-bold text-[11px] bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm">
+                        <Button size="sm" className="flex-1 sm:flex-none h-10 px-4 bg-primary hover:bg-primary/90 text-white rounded-xl font-bold shadow-lg shadow-primary/10" onClick={() => setRequestModalOpen(true)}>
                             <Plus size={14} className="mr-2" /> Request Territory
                         </Button>
                     </div>
                 </div>
 
-                {/* Summary Statistics Grid (Figma Style) */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 mb-6 md:mb-8">
-                    {stats.map((s, i) => (
-                        <div key={i} className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow group relative overflow-hidden">
-                            <div className="flex items-start justify-between relative z-10">
-                                <div>
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{s.label}</p>
-                                    <h3 className="text-2xl font-black text-slate-900 tracking-tighter">{s.value}</h3>
-                                    <p className="text-[10px] text-slate-400 font-medium mt-0.5">{s.sub}</p>
+                {/* Dynamic Stats Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-6">
+                    {[
+                        { label: 'Avg ROI', value: '18.4%', trend: '+2.1%', icon: Zap, cls: 'text-status-orange' },
+                        { label: 'Demand Score', value: '8.4/10', trend: 'High', icon: BarChart3, cls: 'text-primary' },
+                        { label: 'Active Nodes', value: '1,402', trend: '+12', icon: ShieldCheck, cls: 'text-status-green' },
+                        { label: 'Open Capacity', value: '14.2 MW', trend: '-0.4', icon: Database, cls: 'text-blue-500' },
+                        { label: 'Partner Count', value: '142', trend: '+4', icon: Globe2, cls: 'text-purple-500' },
+                    ].map((stat, i) => (
+                        <div key={i} className="rounded-2xl p-4 sm:p-5 bg-white border border-border shadow-sm hover:shadow-md transition-all group overflow-hidden relative">
+                            <div className="flex items-center justify-between mb-3">
+                                <div className={cn("p-2 rounded-xl bg-slate-50", stat.cls)}>
+                                    <stat.icon size={16} />
                                 </div>
-                                <div className={cn("p-2 rounded-lg", s.bg)}>
-                                    <s.icon size={18} className={s.color} />
-                                </div>
+                                <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">{stat.trend}</span>
                             </div>
-                            <div className="absolute top-0 right-0 p-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <MoreHorizontal size={14} className="text-slate-300" />
+                            <div>
+                                <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{stat.label}</p>
+                                <p className="text-xl sm:text-2xl font-display font-black text-foreground mt-0.5 tracking-tight">{stat.value}</p>
                             </div>
                         </div>
                     ))}
                 </div>
 
-                {/* Advanced Filter Bar (Figma Style) */}
+                {/* Registry Explorer Header */}
                 <div className="bg-white border border-slate-200 rounded-xl shadow-sm mb-4 md:mb-6 overflow-hidden">
-                    <div className="p-2 flex flex-wrap items-center gap-2">
+                    <div className="p-3 flex flex-wrap items-center gap-3">
                         <div className="relative flex-1 min-w-[200px]">
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
-                            <input
+                            <Input
                                 type="text"
                                 placeholder="Search by territory ID, name, state..."
                                 value={search}
@@ -124,7 +115,7 @@ export default function TerritoryRegistryPage() {
                             />
                         </div>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
                             <select
                                 value={stateFilter}
                                 onChange={(e) => setStateFilter(e.target.value)}
@@ -151,15 +142,6 @@ export default function TerritoryRegistryPage() {
                                 <option value="all">Adoption Levels</option>
                                 {['Low', 'Medium', 'High'].map(o => <option key={o} value={o}>{o}</option>)}
                             </select>
-
-                            <select
-                                value={riskFilter}
-                                onChange={(e) => setRiskFilter(e.target.value)}
-                                className="h-10 px-4 bg-slate-50 border border-slate-200 rounded-lg text-[11px] font-bold text-slate-600 outline-none hover:bg-white transition-colors"
-                            >
-                                <option value="all">Risk Profiles</option>
-                                {['Low', 'Medium', 'High'].map(o => <option key={o} value={o}>{o}</option>)}
-                            </select>
                         </div>
 
                         <div className="flex bg-slate-100 p-1 rounded-lg ml-auto">
@@ -175,10 +157,6 @@ export default function TerritoryRegistryPage() {
                             >
                                 <LayoutGrid size={12} className="inline mr-1.5" /> Cards
                             </button>
-                        </div>
-
-                        <div className="px-3 border-l border-slate-200 ml-2">
-                            <span className="text-[11px] font-bold text-slate-400"><span className="text-slate-900">{filtered.length}</span> of <span className="text-slate-900">{territories.length}</span> territories</span>
                         </div>
                     </div>
                 </div>
@@ -235,22 +213,6 @@ export default function TerritoryRegistryPage() {
                                             </div>
 
                                             <div className="flex items-center gap-1.5">
-                                                {/* <Tooltip>
-                                                    <TooltipTrigger asChild>
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="icon"
-                                                            className="h-7 w-7 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-slate-50 border border-transparent hover:border-slate-100"
-                                                            onClick={() => navigate(`/onboarding/infra-partner/territory/${t.id}`)}
-                                                        >
-                                                            <Eye size={12} />
-                                                        </Button>
-                                                    </TooltipTrigger>
-                                                    <TooltipContent>
-                                                        <p className="text-[10px]">View Detail Dossier</p>
-                                                    </TooltipContent>
-                                                </Tooltip> */}
-
                                                 <Button
                                                     className={cn(
                                                         "h-7 px-3 rounded-lg text-[9px] font-black uppercase transition-all shadow-sm",
@@ -268,8 +230,8 @@ export default function TerritoryRegistryPage() {
                         })}
                     </div>
                 ) : (
-                    <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden animate-in slide-in-from-bottom-2 duration-500">
-                        <table className="w-full text-left">
+                    <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-x-auto no-scrollbar animate-in slide-in-from-bottom-2 duration-500">
+                        <table className="w-full text-left min-w-[800px]">
                             <thead className="bg-slate-50 border-b border-slate-100">
                                 <tr className="text-[10px] font-black text-slate-400 uppercase tracking-[0.1em]">
                                     <th className="px-8 py-4">Node ID</th>
@@ -324,7 +286,12 @@ export default function TerritoryRegistryPage() {
                                                     size="sm"
                                                     disabled={t.status !== 'available'}
                                                     className="h-8 px-4 rounded-lg font-bold text-[10px] uppercase bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm"
-                                                    onClick={() => t.status === 'available' && setRequestModalOpen(true)}
+                                                    onClick={() => {
+                                                        if (t.status === 'available') {
+                                                            setSelectedTerritory(t);
+                                                            setRequestModalOpen(true);
+                                                        }
+                                                    }}
                                                 >
                                                     {t.status === 'available' ? 'Request' : t.status}
                                                 </Button>
@@ -336,13 +303,13 @@ export default function TerritoryRegistryPage() {
                         </table>
                     </div>
                 )}
-            </div>
 
-            <TerritoryRequestModal
-                open={requestModalOpen}
-                onClose={() => setRequestModalOpen(false)}
-                territory={selectedTerritory}
-            />
+                <TerritoryRequestModal
+                    open={requestModalOpen}
+                    onClose={() => setRequestModalOpen(false)}
+                    territory={selectedTerritory}
+                />
+            </div>
         </TooltipProvider>
     );
 }

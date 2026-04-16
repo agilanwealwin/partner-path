@@ -169,7 +169,7 @@ const StateSidebar = memo(({
   stateData: typeof indiaStateData[string] | null
 }) => {
   return (
-    <div className="w-[320px] shrink-0 flex flex-col border-r border-border bg-surface p-6 overflow-y-auto">
+    <div className="w-full lg:w-[320px] shrink-0 flex flex-col border-t lg:border-t-0 lg:border-r border-border bg-surface p-4 sm:p-6 overflow-y-auto max-h-[50vh] lg:max-h-none">
       <div className="space-y-6">
         <div className="space-y-2">
           <span className="text-[9px] font-bold tracking-widest text-muted-foreground uppercase">Search</span>
@@ -357,36 +357,36 @@ export default function TerritoryMapPage() {
   return (
     <div className="p-0 h-screen flex flex-col bg-background overflow-hidden relative theme-transition">
       {/* Header */}
-      <div className="relative shrink-0 border-b border-border px-8 py-5 flex items-center justify-between bg-surface shadow-sm">
+      <div className="relative shrink-0 border-b border-border px-4 sm:px-8 py-4 sm:py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-surface shadow-sm overflow-hidden">
         <div className="space-y-1">
           <div className="flex items-center gap-3">
             <Link to="/onboarding/infra-partner/territories" className="h-7 px-2.5 rounded-lg bg-muted border border-border flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-all">
               <ChevronLeft size={12} /> Registry
             </Link>
-            <div className="h-3.5 w-px bg-border" />
+            <div className="h-3.5 w-px bg-border sm:block hidden" />
             <div className="flex items-center gap-2 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[9px] text-emerald-500 font-bold tracking-widest uppercase">
               <Activity size={10} className="animate-pulse" /> Live System
             </div>
           </div>
-          <h1 className="font-display font-extrabold text-2xl text-foreground tracking-tight leading-none pt-1">
+          <h1 className="font-display font-extrabold text-xl sm:text-2xl text-foreground tracking-tight leading-none pt-1">
             Network Intelligence <span className="text-primary">Map</span>
           </h1>
-          <p className="text-[10px] font-mono tracking-widest text-muted-foreground uppercase opacity-70">Protocol Infrastructure · Real-time View</p>
+          <p className="text-[9px] sm:text-[10px] font-mono tracking-widest text-muted-foreground uppercase opacity-70">Protocol Infrastructure · Real-time View</p>
         </div>
-        <div className="flex items-center gap-6 bg-surface-2 border border-border px-5 py-4 rounded-2xl">
+        <div className="flex items-center gap-4 sm:gap-6 bg-surface-2 border border-border px-4 sm:px-5 py-3 sm:py-4 rounded-2xl">
           <div className="text-right">
             <p className="text-[8px] font-bold tracking-widest text-muted-foreground uppercase mb-0.5 opacity-60">Global Capacity</p>
-            <p className="font-display font-extrabold text-2xl text-foreground leading-none">18.7 <span className="text-[9px] text-primary opacity-60 uppercase">GW</span></p>
+            <p className="font-display font-extrabold text-lg sm:text-2xl text-foreground leading-none">18.7 <span className="text-[9px] text-primary opacity-60 uppercase">GW</span></p>
           </div>
           <div className="h-8 w-px bg-border" />
           <div className="text-right">
             <p className="text-[8px] font-bold tracking-widest text-muted-foreground uppercase mb-0.5 opacity-60">Operational Nodes</p>
-            <p className="font-display font-extrabold text-2xl text-primary leading-none">12,840</p>
+            <p className="font-display font-extrabold text-lg sm:text-2xl text-primary leading-none">12,840</p>
           </div>
         </div>
       </div>
 
-      <div className="flex-1 flex min-h-0">
+      <div className="flex-1 flex flex-col-reverse lg:flex-row min-h-0">
         <StateSidebar
           hoveredState={hoveredState}
           searchQuery={searchQuery}
@@ -401,7 +401,7 @@ export default function TerritoryMapPage() {
           className="flex-1 relative overflow-hidden bg-[#eef2f8]"
           onMouseMove={handleMouseMove}
         >
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 flex gap-5 px-6 py-2.5 bg-white/90 border border-black/5 backdrop-blur-md rounded-full shadow-lg">
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 flex flex-wrap justify-center gap-2 sm:gap-5 px-4 sm:px-6 py-2 sm:py-2.5 bg-white/90 border border-black/5 backdrop-blur-md rounded-2xl sm:rounded-full shadow-lg max-w-[90%]">
             {statusLegend.map(l => (
               <div key={l.label} className="flex items-center gap-2">
                 <div className={cn("w-2 h-2 rounded-full", l.color)} />

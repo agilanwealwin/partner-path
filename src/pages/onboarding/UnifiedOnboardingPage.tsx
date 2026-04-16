@@ -179,17 +179,17 @@ export default function UnifiedOnboardingPage() {
 
     const renderPreQualification = () => (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="flex items-start justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                 <div>
-                    <h1 className="font-display font-bold text-2xl text-foreground tracking-tight">Pre-Qualification Assessment</h1>
-                    <p className="text-sm text-muted-foreground mt-1 font-mono uppercase tracking-widest opacity-60">Section 1: Technical & Financial Standing</p>
+                    <h1 className="font-display font-bold text-xl sm:text-2xl text-foreground tracking-tight uppercase">Pre-Qualification <span className="text-primary">Assessment</span></h1>
+                    <p className="text-xs sm:text-sm text-muted-foreground mt-1 font-mono uppercase tracking-widest opacity-60">Section 1: Technical & Financial Standing</p>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-[10px] text-primary font-bold tracking-widest uppercase">
+                <div className="flex items-center w-fit gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-[10px] text-primary font-bold tracking-widest uppercase">
                     Stage 1 of 3
                 </div>
             </div>
 
-            <div className="flex gap-6">
+            <div className="flex flex-col lg:flex-row gap-6">
                 <div className="flex-1 space-y-6 min-w-0">
                     {/* Block 1 — Company Information */}
                     <div className="rounded-card bg-surface p-5 shadow-surface space-y-4">
@@ -197,7 +197,7 @@ export default function UnifiedOnboardingPage() {
                             <Building2 size={16} className="text-muted-foreground" />
                             <span className="section-label">Block 1 — Company Information</span>
                         </div>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div><label className="text-[11px] text-muted-foreground uppercase font-bold tracking-wider">Company/Entity Name *</label><Input className="mt-1 h-9 text-sm bg-surface-2 border-border" defaultValue="SunVolt EPC Ltd." /></div>
                             <div><label className="text-[11px] text-muted-foreground uppercase font-bold tracking-wider">Registration Number *</label><Input className="mt-1 h-9 text-sm bg-surface-2 border-border" /></div>
                             <div><label className="text-[11px] text-muted-foreground uppercase font-bold tracking-wider">Company Type *</label>
@@ -206,7 +206,7 @@ export default function UnifiedOnboardingPage() {
                                 </select>
                             </div>
                             <div><label className="text-[11px] text-muted-foreground uppercase font-bold tracking-wider">Year of Incorporation *</label><Input className="mt-1 h-9 text-sm bg-surface-2 border-border" type="number" /></div>
-                            <div className="col-span-2"><label className="text-[11px] text-muted-foreground uppercase font-bold tracking-wider">Registered Office Address *</label><Textarea className="mt-1 text-sm bg-surface-2 border-border min-h-[60px]" /></div>
+                            <div className="sm:col-span-2"><label className="text-[11px] text-muted-foreground uppercase font-bold tracking-wider">Registered Office Address *</label><Textarea className="mt-1 text-sm bg-surface-2 border-border min-h-[60px]" /></div>
                         </div>
                     </div>
 
@@ -216,13 +216,13 @@ export default function UnifiedOnboardingPage() {
                             <Wrench size={16} className="text-muted-foreground" />
                             <span className="section-label">Block 2 — Technical Credentials</span>
                         </div>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div><label className="text-[11px] text-muted-foreground uppercase font-bold tracking-wider">Total Solar EPC Experience (years) *</label><Input className="mt-1 h-9 text-sm bg-surface-2 border-border" type="number" /></div>
                             <div><label className="text-[11px] text-muted-foreground uppercase font-bold tracking-wider">Total MW Deployed *</label><Input className="mt-1 h-9 text-sm bg-surface-2 border-border" type="number" /></div>
                         </div>
                         <div>
                             <label className="text-[11px] text-muted-foreground uppercase font-bold tracking-wider">Asset Types</label>
-                            <div className="grid grid-cols-3 gap-2 mt-2">
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-2">
                                 {assetTypes.map((a) => (
                                     <button
                                         key={a.label}
@@ -232,7 +232,7 @@ export default function UnifiedOnboardingPage() {
                                             selectedAssets.includes(a.label) ? 'border-primary bg-primary/5 text-foreground' : 'border-border bg-surface-2 text-muted-foreground hover:border-primary/30'
                                         )}
                                     >
-                                        <a.icon size={14} /> {a.label}
+                                        <a.icon size={14} className="shrink-0" /> <span className="truncate">{a.label}</span>
                                     </button>
                                 ))}
                             </div>
@@ -248,13 +248,13 @@ export default function UnifiedOnboardingPage() {
                             </div>
                         </div>
                         <p className="text-[11px] text-muted-foreground">Which states are you interested in deploying projects?</p>
-                        <div className="grid grid-cols-4 gap-1.5 max-h-[160px] overflow-y-auto pr-2">
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 max-h-[160px] overflow-y-auto pr-2">
                             {indianStates.map(s => (
                                 <button
                                     key={s}
                                     onClick={() => setSelectedStates(prev => prev.includes(s) ? prev.filter(item => item !== s) : [...prev, s])}
                                     className={cn(
-                                        "px-2 py-1.5 rounded-md text-[10px] text-left transition-all",
+                                        "px-2 py-1.5 rounded-md text-[10px] text-left transition-all truncate",
                                         selectedStates.includes(s) ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-surface-2 text-muted-foreground border border-transparent hover:border-border'
                                     )}
                                 >
@@ -279,15 +279,15 @@ export default function UnifiedOnboardingPage() {
                         ))}
                     </div>
 
-                    <div className="flex gap-3">
-                        <Button variant="outline" size="lg" className="rounded-xl px-8">Save Draft</Button>
-                        <Button size="lg" className="rounded-xl px-8" disabled={!declarations.slice(0, 2).every(Boolean)} onClick={handlePreQualSubmit}>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                        <Button variant="outline" size="lg" className="rounded-xl px-8 w-full sm:w-auto">Save Draft</Button>
+                        <Button size="lg" className="rounded-xl px-8 w-full sm:w-auto" disabled={!declarations.slice(0, 2).every(Boolean)} onClick={handlePreQualSubmit}>
                             Complete Application <ArrowRight size={16} className="ml-2" />
                         </Button>
                     </div>
                 </div>
 
-                <div className="w-[300px] shrink-0">
+                <div className="w-full lg:w-[300px] shrink-0">
                     <div className="rounded-card bg-surface p-6 shadow-surface sticky top-6 border border-border/50">
                         <div className="flex items-center gap-2 mb-4">
                             <BarChart3 size={16} className="text-primary" />
@@ -322,12 +322,12 @@ export default function UnifiedOnboardingPage() {
 
     const renderDocuments = () => (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="flex items-start justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                 <div>
-                    <h1 className="font-display font-bold text-2xl text-foreground tracking-tight">Document Submission</h1>
-                    <p className="text-sm text-muted-foreground mt-1 font-mono uppercase tracking-widest opacity-60">Section 2: Verifiable Credentials</p>
+                    <h1 className="font-display font-bold text-xl sm:text-2xl text-foreground tracking-tight">Technical & Compliance <span className="text-primary">Records</span></h1>
+                    <p className="text-xs sm:text-sm text-muted-foreground mt-1 font-mono uppercase tracking-widest opacity-60">Section 2: Verifiable Credentials</p>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-[10px] text-primary font-bold tracking-widest uppercase">
+                <div className="flex items-center w-fit gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-[10px] text-primary font-bold tracking-widest uppercase">
                     Stage 2 of 3
                 </div>
             </div>
@@ -340,7 +340,7 @@ export default function UnifiedOnboardingPage() {
                 <Progress value={docPct} className="h-2 bg-surface-2" />
             </div>
 
-            <div className="flex gap-6">
+            <div className="flex flex-col lg:flex-row gap-6">
                 <div className="flex-1 space-y-3 min-w-0">
                     {docSections.map((sec, si) => (
                         <div key={si} className="rounded-card bg-surface border border-border shadow-sm overflow-hidden group">
@@ -357,21 +357,23 @@ export default function UnifiedOnboardingPage() {
                                     {sec.docs.map((doc) => {
                                         const sd = docStatusDisplay[doc.status];
                                         return (
-                                            <div key={doc.id} className="flex items-center px-6 py-3.5 hover:bg-surface-2/50 transition-colors">
-                                                <span className="font-mono text-[10px] text-muted-foreground w-8">0{doc.id}</span>
-                                                <div className="flex-1">
-                                                    <span className="text-sm font-medium text-foreground">{doc.name}{doc.required ? '*' : ''}</span>
+                                            <div key={doc.id} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 px-4 sm:px-6 py-3.5 hover:bg-surface-2/50 transition-colors">
+                                                <div className="flex items-center gap-3 flex-1 min-w-0">
+                                                    <span className="font-mono text-[10px] text-muted-foreground w-6">0{doc.id}</span>
+                                                    <span className="text-sm font-medium text-foreground truncate">{doc.name}{doc.required ? '*' : ''}</span>
                                                 </div>
-                                                <span className={cn("inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-tight mr-6", sd.cls)}>
-                                                    <sd.icon size={12} /> {sd.label}
-                                                </span>
-                                                {doc.status === 'verified' || doc.status === 'review' ? (
-                                                    <button className="p-1.5 rounded-lg hover:bg-surface-3 transition-colors text-muted-foreground hover:text-primary"><Eye size={14} /></button>
-                                                ) : (
-                                                    <Button variant="outline" size="xs" className="rounded-lg h-8 px-3 text-[10px] font-bold uppercase tracking-widest border-primary/20 text-primary hover:bg-primary/5">
-                                                        <Upload size={12} className="mr-1.5" /> Upload
-                                                    </Button>
-                                                )}
+                                                <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-6 pl-9 sm:pl-0">
+                                                    <span className={cn("inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-tight", sd.cls)}>
+                                                        <sd.icon size={12} /> {sd.label}
+                                                    </span>
+                                                    {doc.status === 'verified' || doc.status === 'review' ? (
+                                                        <button className="p-1.5 rounded-lg hover:bg-surface-3 transition-colors text-muted-foreground hover:text-primary"><Eye size={14} /></button>
+                                                    ) : (
+                                                        <Button variant="outline" size="xs" className="rounded-lg h-8 px-3 text-[10px] font-bold uppercase tracking-widest border-primary/20 text-primary hover:bg-primary/5">
+                                                            <Upload size={12} className="mr-1.5" /> Upload
+                                                        </Button>
+                                                    )}
+                                                </div>
                                             </div>
                                         );
                                     })}
@@ -379,13 +381,13 @@ export default function UnifiedOnboardingPage() {
                             )}
                         </div>
                     ))}
-                    <div className="pt-4 flex gap-3">
-                        <Button variant="outline" size="lg" className="rounded-xl px-8" onClick={() => setStage('pre-qual')}>Back</Button>
-                        <Button size="lg" className="rounded-xl px-8" onClick={handleDocsSubmit}>Review Application <ArrowRight size={16} className="ml-2" /></Button>
+                    <div className="pt-4 flex flex-col sm:flex-row gap-3">
+                        <Button variant="outline" size="lg" className="rounded-xl px-8 w-full sm:w-auto" onClick={() => setStage('pre-qual')}>Back</Button>
+                        <Button size="lg" className="rounded-xl px-8 w-full sm:w-auto" onClick={handleDocsSubmit}>Save & Continue <ArrowRight size={16} className="ml-2" /></Button>
                     </div>
                 </div>
 
-                <div className="w-[300px] shrink-0 space-y-4">
+                <div className="w-full lg:w-[300px] shrink-0 space-y-4">
                     <div className="rounded-card bg-surface p-6 border border-border shadow-sm space-y-4">
                         <div className="flex items-center gap-2">
                             <Info size={16} className="text-primary" />
@@ -407,9 +409,9 @@ export default function UnifiedOnboardingPage() {
 
     const renderStatus = () => (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24">
-            <div className="flex items-start justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                 <div>
-                    <h1 className="font-display font-black text-3xl text-foreground tracking-tighter uppercase">Application <span className="text-primary">Status</span></h1>
+                    <h1 className="font-display font-black text-2xl sm:text-3xl text-foreground tracking-tighter uppercase">Application <span className="text-primary">Status</span></h1>
                     <p className="text-[11px] text-muted-foreground mt-1 font-mono uppercase tracking-widest opacity-60">Partner Lifecycle Tracking · VERSION 2.0</p>
                 </div>
                 <div className="flex gap-3">
@@ -419,17 +421,17 @@ export default function UnifiedOnboardingPage() {
                 </div>
             </div>
 
-            <div className="relative rounded-[2.5rem] bg-gradient-to-br from-primary/5 via-primary/[0.02] to-transparent p-10 border border-primary/10 overflow-hidden shadow-sm">
+            <div className="relative rounded-2xl md:rounded-[2.5rem] bg-gradient-to-br from-primary/5 via-primary/[0.02] to-transparent p-6 md:p-10 border border-primary/10 overflow-hidden shadow-sm">
                 <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/10 blur-[100px] rounded-full" />
                 <div className="relative z-10 grid grid-cols-12 gap-10 items-center">
-                    <div className="col-span-12 md:col-span-7 space-y-6">
+                    <div className="col-span-12 lg:col-span-7 space-y-6">
                         <div className="space-y-2">
                             <div className="flex items-center gap-2 mb-1">
                                 <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest border border-primary/20">
                                     Current Application
                                 </span>
                             </div>
-                            <h2 className="text-4xl font-display font-black text-foreground tracking-tight leading-tight">
+                            <h2 className="text-3xl sm:text-4xl font-display font-black text-foreground tracking-tight leading-tight">
                                 Your application is <span className="text-primary italic">under review.</span>
                             </h2>
                             <p className="text-sm text-muted-foreground font-medium max-w-md">Our team is reviewing your project portfolio and technical capacity.</p>
@@ -444,7 +446,7 @@ export default function UnifiedOnboardingPage() {
                             </div>
                         </div>
                     </div>
-                    <div className="col-span-12 md:col-span-5 grid grid-cols-1 gap-4 h-full items-center">
+                    <div className="col-span-12 lg:col-span-5 grid grid-cols-1 gap-4 h-full items-center">
                         <div className="p-6 rounded-3xl bg-surface border border-border/60 space-y-3 shadow-inner">
                             <div className="flex items-center justify-between">
                                 <p className="text-[10px] font-black tracking-widest text-muted-foreground uppercase">Reference ID</p>
@@ -452,24 +454,24 @@ export default function UnifiedOnboardingPage() {
                                     <ShieldCheck size={14} className="text-primary" />
                                 </div>
                             </div>
-                            <p className="text-xl font-mono font-black text-foreground tracking-tighter">IFP-26-0087</p>
+                            <p className="text-lg sm:text-xl font-mono font-black text-foreground tracking-tighter">IFP-26-0087</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className="rounded-[2rem] bg-surface p-8 shadow-sm border border-border">
+            <div className="rounded-2xl md:rounded-[2rem] bg-surface p-6 sm:p-8 shadow-sm border border-border">
                 <h3 className="section-label mb-8">Onboarding Milestones</h3>
-                <div className="space-y-0 relative ml-4">
+                <div className="space-y-0 relative ml-2 sm:ml-4">
                     <div className="absolute left-0 top-0 bottom-0 w-px bg-border/60 ml-[15px]" />
                     {[
                         { icon: CheckCircle2, status: 'done', title: 'Pre-Qualification Submitted', date: 'Yesterday', desc: 'ID IFP-2026-0087 generated and assigned' },
                         { icon: Upload, status: 'done', title: 'Documents Uploaded', date: 'Today', desc: '14/14 technical and financial records received' },
-                        { icon: MapPinned, status: 'action', title: 'Territory Region Request Approval', date: 'PENDING', desc: 'Verification of requested regional infrastructure nodes' },
+                        { icon: MapPinned, status: 'action', title: 'Territory Request Approval', date: 'PENDING', desc: 'Verification of requested regional infrastructure nodes' },
                         { icon: Clock, status: 'pending', title: 'Compliance Verification', date: 'EST: 3 DAYS', desc: 'Final review by infrastructure committee' },
                         { icon: DollarSign, status: 'pending', title: 'Partner Fee & Activation', date: 'STEP 4', desc: 'Token allocation and portal access' },
                     ].map((milestone, i) => (
-                        <div key={i} className="flex gap-8 group/item relative pb-10 last:pb-0">
+                        <div key={i} className="flex gap-4 sm:gap-8 group/item relative pb-10 last:pb-0">
                             <div className={cn(
                                 "w-8 h-8 rounded-full flex items-center justify-center shrink-0 z-10 transition-all duration-500",
                                 milestone.status === 'done' ? "bg-status-green" : (milestone.status === 'action' ? "bg-status-orange shadow-[0_0_15px_rgba(249,115,22,0.3)]" : "bg-surface-3 border border-border")
@@ -477,11 +479,11 @@ export default function UnifiedOnboardingPage() {
                                 <milestone.icon size={14} className={cn(milestone.status === 'pending' ? "text-muted-foreground" : "text-white")} />
                             </div>
                             <div className="flex-1 space-y-1">
-                                <div className="flex items-center justify-between">
-                                    <h4 className={cn("text-base font-bold", milestone.status === 'pending' ? "text-muted-foreground" : "text-foreground")}>{milestone.title}</h4>
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                                    <h4 className={cn("text-sm sm:text-base font-bold", milestone.status === 'pending' ? "text-muted-foreground" : "text-foreground")}>{milestone.title}</h4>
                                     <span className="text-[9px] font-black font-mono tracking-widest text-muted-foreground/50 uppercase">{milestone.date}</span>
                                 </div>
-                                <p className="text-[12px] text-muted-foreground font-medium leading-relaxed">{milestone.desc}</p>
+                                <p className="text-[11px] sm:text-[12px] text-muted-foreground font-medium leading-relaxed">{milestone.desc}</p>
                             </div>
                         </div>
                     ))}
@@ -491,9 +493,9 @@ export default function UnifiedOnboardingPage() {
     );
 
     return (
-        <div className="w-full min-h-screen px-10 pt-10 pb-24">
+        <div className="w-full min-h-screen px-4 md:px-10 pt-6 md:pt-10 pb-24 max-w-[1400px] mx-auto">
             {/* Universal Breadcrumb / Mini-Stepper */}
-            <div className="flex items-center gap-3 mb-12">
+            <div className="flex items-center gap-2 sm:gap-3 mb-8 md:mb-12 overflow-x-auto pb-2 no-scrollbar">
                 {[
                     { id: 'documents', label: '1. Documents' },
                     { id: 'pre-qual', label: '2. Assessment' },
