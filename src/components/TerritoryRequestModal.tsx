@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function TerritoryRequestModal({ open, onClose, territory }: Props) {
-  const { onboardingData, updateData } = useOnboarding();
+  const { onboardingData, updateData, qualifyTerritory } = useOnboarding();
   const [selected, setSelected] = useState<Territory | null>(territory);
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -31,7 +31,9 @@ export default function TerritoryRequestModal({ open, onClose, territory }: Prop
     setTimeout(() => {
       setSubmitting(false);
       setSubmitted(true);
-      updateData({ ...onboardingData, isTerritoryRequested: true });
+      if (selected) {
+        qualifyTerritory(selected.id);
+      }
     }, 1200);
   };
 

@@ -6,7 +6,7 @@ import {
   BarChart3, LifeBuoy, Clock, Lock
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useOnboarding } from '@/hooks/use-onboarding';
+import { useOnboarding, ONBOARDING_STEPS } from '@/hooks/use-onboarding';
 import { ThemeToggle } from './ThemeToggle';
 
 type NavSection = { label: string; type: 'section' };
@@ -16,15 +16,10 @@ type NavEntry = NavSection | NavItem;
 const navItems: NavEntry[] = [
   { label: 'ONBOARDING FLOW', type: 'section' },
   { id: 'welcome', to: '/onboarding/infra-partner/welcome', icon: Home, label: 'Welcome & Tiers' },
-  { id: 'documents', to: '/onboarding/infra-partner/documents', icon: FileText, label: 'Documents Upload' },
-  { id: 'pre-qualification', to: '/onboarding/infra-partner/pre-qualification', icon: ClipboardList, label: 'Pre-Qualification' },
-  { id: 'status', to: '/onboarding/infra-partner/status', icon: CheckCircle2, label: 'Application Status' },
+  { id: 'application', to: '/onboarding/infra-partner/documents', icon: FileText, label: 'Application Progress' },
   { label: 'NETWORK', type: 'section' },
   { to: '/onboarding/infra-partner/territories', icon: Globe2, label: 'Territory Registry', badge: 'NEW' },
   { to: '/onboarding/infra-partner/territory-map', icon: Map, label: 'Territory Map' },
-  { label: 'REFERENCE', type: 'section' },
-  { to: '/onboarding/infra-partner/scoring', icon: BarChart3, label: 'Scoring Framework' },
-  { to: '/onboarding/infra-partner/support', icon: LifeBuoy, label: 'Protocol Support' },
 ];
 
 export default function OnboardingSidebar() {
@@ -49,7 +44,12 @@ export default function OnboardingSidebar() {
             );
           }
           const navItem = item as NavItem;
-          const isActive = location.pathname.startsWith(navItem.to);
+          let to = navItem.to;
+          if (navItem.id === 'application') {
+            // If on welcome (0), go to documents (1). Otherwise go to current.
+            to = ONBOARDING_STEPS[currentStepIndex === 0 ? 1 : currentStepIndex].path;
+          }
+          const isActive = location.pathname.startsWith(to);
 
           // Logic for onboarding steps status
           const isCompleted = navItem.id && completedSteps.includes(navItem.id);
@@ -58,7 +58,7 @@ export default function OnboardingSidebar() {
           return (
             <RouterNavLink
               key={navItem.to}
-              to={navItem.to}
+              to={to}
               state={{ fromSidebar: true }}
               className={cn(
                 "flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] transition-colors duration-150",

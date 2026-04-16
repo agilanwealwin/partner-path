@@ -11,6 +11,7 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
     { id: 'welcome', label: 'Select Tier & Apply', path: '/onboarding/infra-partner/welcome' },
     { id: 'documents', label: 'Upload Documents', path: '/onboarding/infra-partner/documents' },
     { id: 'pre-qualification', label: 'Pre-Qualification', path: '/onboarding/infra-partner/pre-qualification' },
+    { id: 'select-territory', label: 'Select Territory', path: '/onboarding/infra-partner/select-territory' },
     { id: 'status', label: 'Application Status', path: '/onboarding/infra-partner/status' },
 ];
 
@@ -23,6 +24,7 @@ interface OnboardingContextType {
     setStep: (index: number) => void;
     onboardingData: any;
     updateData: (data: any) => void;
+    qualifyTerritory: (id: string) => void;
 }
 
 const OnboardingContext = createContext<OnboardingContextType | undefined>(undefined);
@@ -31,6 +33,7 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
     const [completedSteps, setCompletedSteps] = useState<string[]>([]);
     const [onboardingData, setOnboardingData] = useState<any>({
         selectedTerritories: [],
+        qualifiedTerritoryIds: [],
         isSubmitted: false,
         isTerritoryRequested: false
     });
@@ -72,6 +75,16 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
         setOnboardingData(prev => ({ ...prev, ...data }));
     };
 
+    const qualifyTerritory = (id: string) => {
+        setOnboardingData(prev => ({
+            ...prev,
+            isTerritoryRequested: true,
+            qualifiedTerritoryIds: prev.qualifiedTerritoryIds.includes(id)
+                ? prev.qualifiedTerritoryIds
+                : [...prev.qualifiedTerritoryIds, id]
+        }));
+    };
+
     return (
         <OnboardingContext.Provider value={{
             currentStepIndex: currentStepIndex === -1 ? 0 : currentStepIndex,
@@ -81,7 +94,8 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
             prevStep,
             setStep,
             onboardingData,
-            updateData
+            updateData,
+            qualifyTerritory
         }}>
             {children}
         </OnboardingContext.Provider>

@@ -53,10 +53,10 @@ export const territories: Territory[] = [
 ];
 
 export const statusConfig = {
-  available: { label: 'Available', color: 'hsl(var(--status-green))', bg: 'hsl(var(--green-soft))', textClass: 'text-status-green', bgClass: 'bg-green-soft' },
-  subscribed: { label: 'Subscribed', color: 'hsl(var(--accent-color))', bg: 'hsl(var(--accent-soft))', textClass: 'text-primary', bgClass: 'bg-accent-soft' },
-  reserved: { label: 'Reserved', color: 'hsl(var(--status-orange))', bg: 'hsl(var(--orange-soft))', textClass: 'text-status-orange', bgClass: 'bg-orange-soft' },
-  allocated: { label: 'Allocated', color: 'hsl(var(--status-blue))', bg: 'hsl(var(--blue-soft))', textClass: 'text-status-blue', bgClass: 'bg-blue-soft' },
+  available: { label: 'Available', color: '#2563eb', bg: 'rgba(37, 99, 235, 0.08)', textClass: 'text-blue-600', bgClass: 'bg-blue-50' },
+  subscribed: { label: 'Subscribed', color: '#9333ea', bg: 'rgba(147, 51, 234, 0.08)', textClass: 'text-purple-600', bgClass: 'bg-purple-50' },
+  reserved: { label: 'Reserved', color: '#ea580c', bg: 'rgba(234, 88, 12, 0.08)', textClass: 'text-orange-600', bgClass: 'bg-orange-50' },
+  allocated: { label: 'Allocated', color: '#dc2626', bg: 'rgba(220, 38, 38, 0.08)', textClass: 'text-red-600', bgClass: 'bg-red-50' },
 };
 
 export const riskConfig = {

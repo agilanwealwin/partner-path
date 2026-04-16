@@ -8,9 +8,7 @@ import OnboardingLayout from "@/layouts/OnboardingLayout";
 import PortalLayout from "@/layouts/PortalLayout";
 import WelcomePage from "@/pages/onboarding/WelcomePage";
 import TerritoryRegistryPage from "@/pages/onboarding/TerritoryRegistryPage";
-import DocumentsUploadPage from "@/pages/onboarding/DocumentsUploadPage";
-import PreQualificationPage from "@/pages/onboarding/PreQualificationPage";
-import ApplicationStatusPage from "@/pages/onboarding/ApplicationStatusPage";
+import UnifiedOnboardingPage from "@/pages/onboarding/UnifiedOnboardingPage";
 import TerritoryMapPage from "@/pages/onboarding/TerritoryMapPage";
 import TerritoryDetailPage from "@/pages/onboarding/TerritoryDetailPage";
 import ScoringFrameworkPage from "@/pages/onboarding/ScoringFrameworkPage";
@@ -49,9 +47,10 @@ const App = () => (
             <Route path="/onboarding/infra-partner" element={<OnboardingLayout />}>
               <Route index element={<Navigate to="welcome" replace />} />
               <Route path="welcome" element={<WelcomePage />} />
-              <Route path="documents" element={<DocumentsUploadPage />} />
-              <Route path="pre-qualification" element={<PreQualificationPage />} />
-              <Route path="status" element={<ApplicationStatusPage />} />
+              <Route path="documents" element={<UnifiedOnboardingPage />} />
+              <Route path="pre-qualification" element={<UnifiedOnboardingPage />} />
+              <Route path="select-territory" element={<UnifiedOnboardingPage />} />
+              <Route path="status" element={<UnifiedOnboardingPage />} />
               <Route path="territories" element={<TerritoryRegistryPage />} />
               <Route path="territories/:id" element={<TerritoryDetailPage />} />
               <Route path="territory-map" element={<TerritoryMapPage />} />
