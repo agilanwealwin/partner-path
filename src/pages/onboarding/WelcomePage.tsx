@@ -62,13 +62,13 @@ export default function WelcomePage() {
   };
 
   return (
-    <div className="p-10 max-w-[1200px] mx-auto space-y-16 bg-background">
+    <div className="p-4 md:p-6 lg:p-10 max-w-[1200px] mx-auto space-y-8 md:space-y-16 bg-background">
       {/* Top Header Utilities */}
-      <div className="flex items-end justify-between border-b border-border pb-8">
+      <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-border pb-6 md:pb-8 gap-4">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <span className="px-2 py-0.5 rounded bg-surface-3 text-[10px] font-mono text-muted-foreground border border-border tracking-tighter">v1.2 // PROD</span>
-            <h1 className="font-display font-bold text-3xl text-foreground tracking-tight">Infrastructure Partner Programme</h1>
+            <h1 className="font-display font-bold text-xl md:text-3xl text-foreground tracking-tight">Infrastructure Partner Programme</h1>
           </div>
           <p className="text-sm text-muted-foreground flex items-center gap-2 font-medium">
             Protocol Guideline DLN/PQ/2026/001
@@ -76,7 +76,7 @@ export default function WelcomePage() {
             <span className="flex items-center gap-1.5 text-status-orange"><Sparkles size={14} /> Early Access Enrollment</span>
           </p>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-3 md:gap-4">
           <Button variant="outline" size="sm" className="h-10 px-6 rounded-xl border-border bg-surface-2 hover:bg-surface-3 transition-colors" onClick={() => navigate('/onboarding/infra-partner/scoring')}>
             Scoring Matrix <ArrowUpRight size={14} className="ml-2 opacity-50" />
           </Button>
@@ -87,13 +87,13 @@ export default function WelcomePage() {
       </div>
 
       {/* Welcome Hero Banner */}
-      <div className="rounded-[2.5rem] p-12 relative overflow-hidden hero-gradient border border-border shadow-2xl shadow-primary/5 group">
+      <div className="rounded-2xl md:rounded-[2.5rem] p-6 md:p-12 relative overflow-hidden hero-gradient border border-border shadow-2xl shadow-primary/5 group">
         <div className="absolute inset-0 hero-glow-accent opacity-40 group-hover:opacity-60 transition-opacity duration-1000" />
-        <div className="relative z-10 grid grid-cols-[1fr,auto] gap-16 items-center">
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1fr,auto] gap-8 lg:gap-16 items-center">
           <div className="space-y-8">
             <div className="space-y-3">
               <p className="text-[11px] font-black tracking-[0.3em] text-primary uppercase animate-in slide-in-from-left-4 duration-500">DePIN SOLAR ECOSYSTEM</p>
-              <h2 className="font-display font-black text-6xl text-foreground leading-[1.05] tracking-tight">
+              <h2 className="font-display font-black text-3xl md:text-5xl lg:text-6xl text-foreground leading-[1.05] tracking-tight">
                 Certified Energy<br />
                 <span className="gradient-accent-text">Service Providers</span>
               </h2>
@@ -155,7 +155,7 @@ export default function WelcomePage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
           {tiers.map((tier, i) => {
             const isSelected = selectedTier === i;
             return (
@@ -238,14 +238,14 @@ export default function WelcomePage() {
       </div>
 
       {/* Comparison Matrix Section */}
-      <div className="space-y-8 pt-16">
+      <div className="space-y-8 pt-8 md:pt-16">
         <div className="flex items-center justify-between px-2">
           <h3 className="text-[11px] font-bold uppercase tracking-[0.3em] text-muted-foreground">Programme Comparison Matrix</h3>
           <p className="text-[10px] text-muted-foreground font-mono italic tracking-[0.1em] opacity-60">REF: DLN / SEC / 004 / MATRIX</p>
         </div>
 
-        <div className="rounded-[1.5rem] border border-border bg-surface shadow-2xl shadow-primary/[0.02] relative overflow-hidden">
-          <table className="w-full text-left border-separate border-spacing-0">
+        <div className="rounded-xl md:rounded-[1.5rem] border border-border bg-surface shadow-2xl shadow-primary/[0.02] relative overflow-x-auto">
+          <table className="w-full text-left border-separate border-spacing-0 min-w-[600px]">
             <thead>
               <tr className="bg-surface-2/40">
                 <th className="px-8 py-8 text-[10px] uppercase tracking-widest font-black text-muted-foreground border-b border-border">Parameter</th>
@@ -304,12 +304,12 @@ export default function WelcomePage() {
       </div>
 
       {/* Final Action Bar */}
-      <div className="flex flex-col items-center gap-8 pt-16 border-t border-border mt-16 animate-in fade-in slide-in-from-bottom-8">
+      <div className="flex flex-col items-center gap-6 md:gap-8 pt-8 md:pt-16 border-t border-border mt-8 md:mt-16 animate-in fade-in slide-in-from-bottom-8">
         <div className="text-center space-y-3">
           <h4 className="font-display font-black text-2xl text-foreground">Ready to start your application?</h4>
           <p className="text-muted-foreground text-sm">Proceeding will initiate the digital verification of your technical profile.</p>
         </div>
-        <div className="flex items-center gap-6">
+        <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
           <Button size="lg" className="h-16 px-14 bg-primary hover:bg-primary/90 text-white rounded-2xl text-base font-black shadow-2xl shadow-primary/30 group transition-all hover:scale-[1.05]" onClick={handleBegin}>
             Begin Pathway Assessment <ArrowRight size={20} className="ml-3 group-hover:translate-x-2 transition-transform" />
           </Button>
