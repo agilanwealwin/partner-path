@@ -19,6 +19,7 @@ import ProjectDetailPage from "@/pages/partner/ProjectDetailPage";
 import NodeManagementPage from "@/pages/partner/NodeManagementPage";
 import NodeDetailPage from "@/pages/partner/NodeDetailPage";
 import MonitoringPage from "@/pages/partner/MonitoringPage";
+import TerritoryExplorerPage from "@/pages/partner/TerritoryExplorerPage";
 import RewardsPage from "@/pages/partner/RewardsPage";
 import GovernancePage from "@/pages/partner/GovernancePage";
 import DocumentsPage from "@/pages/partner/DocumentsPage";
@@ -68,6 +69,7 @@ const App = () => (
               <Route path="nodes" element={<NodeManagementPage />} />
               <Route path="nodes/:id" element={<NodeDetailPage />} />
               <Route path="monitoring" element={<MonitoringPage />} />
+              <Route path="territory-explorer" element={<TerritoryExplorerPage />} />
               <Route path="rewards" element={<RewardsPage />} />
               <Route path="territory-map" element={<TerritoryMapPage />} />
               <Route path="territories" element={<TerritoryRegistryPage />} />
