@@ -1,10 +1,22 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Download, Plus, Search, Radio, CheckCircle2, AlertTriangle,
-  XCircle, Clock, Cpu, Signal, Activity
+  XCircle, Clock, Cpu, Signal, Activity, SlidersHorizontal, Eye, Globe
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import {
+  RefreshCw, // Added for Reboot
+  FileText   // Added for Logs
+} from 'lucide-react';
 
 const fleetKpis = [
   { label: 'TOTAL', value: '316', color: '' },
@@ -35,10 +47,31 @@ const statusCfg: Record<string, { icon: React.ElementType; cls: string; bgCls: s
 
 export default function NodeManagementPage() {
   const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState('All');
+  const [territoryFilter, setTerritoryFilter] = useState('All');
 
-  const filtered = nodes.filter(n =>
-    !search || n.id.toLowerCase().includes(search.toLowerCase()) || n.project.toLowerCase().includes(search.toLowerCase())
-  );
+  const territories = [
+    'All',
+    'Uttar Pradesh Territory 1',
+    'Uttar Pradesh Territory 2',
+    'Rajasthan Territory 4',
+    'Gujarat Territory 3',
+    'Andhra Pradesh Territory 5',
+    'Karnataka Territory 1',
+    'Tamil Nadu Territory 2'
+  ];
+
+  const filtered = nodes.filter(n => {
+    const matchesSearch = !search || n.id.toLowerCase().includes(search.toLowerCase()) || n.project.toLowerCase().includes(search.toLowerCase());
+    const matchesStatus = statusFilter === 'All' || n.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
+
+  const statuses = ['All', ...Object.keys(statusCfg)];
+
+  const handleExport = () => {
+    toast.success("Node list exported successfully as CSV");
+  };
 
   return (
     <div className="p-6 space-y-6">
@@ -47,16 +80,35 @@ export default function NodeManagementPage() {
           <h1 className="font-display font-bold text-2xl text-foreground">Node Management</h1>
           <p className="text-sm text-muted-foreground mt-1">Edge node registry across all projects · DeLEN Protocol v2.4 · Last sync 2 min ago</p>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm"><Download size={14} /> Export CSV</Button>
-          <Button size="sm"><Plus size={14} /> Register Node</Button>
+        <div className="flex gap-3 items-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="gap-2 bg-surface shadow-sm border-border/50 hover:border-primary/30 transition-all">
+                <Globe size={14} className="text-primary" />
+                <span className="text-xs font-medium">{territoryFilter === 'All' ? 'Global View' : territoryFilter}</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <div className="px-2 py-1.5 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Select Territory</div>
+              {territories.map(t => (
+                <DropdownMenuItem
+                  key={t}
+                  onClick={() => setTerritoryFilter(t)}
+                  className={cn(territoryFilter === t && "bg-accent text-accent-foreground")}
+                >
+                  {t === 'All' ? 'All Territories' : t}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Button variant="outline" size="sm" onClick={handleExport}><Download size={14} /> Export CSV</Button>
         </div>
       </div>
 
       {/* Fleet KPIs */}
       <div className="grid grid-cols-5 gap-3">
         {fleetKpis.map(k => (
-          <div key={k.label} className="rounded-card bg-surface p-4 shadow-surface">
+          <div key={k.label} className="rounded-card bg-surface p-4 shadow-surface border border-border/50">
             <span className="section-label">{k.label}</span>
             <p className={cn("font-display font-bold text-xl mt-1", k.color || 'text-foreground')}>{k.value}</p>
             {k.sub && <p className="text-[10px] text-muted-foreground">{k.sub}</p>}
@@ -64,12 +116,36 @@ export default function NodeManagementPage() {
         ))}
       </div>
 
-      {/* Search */}
+      {/* Search & Filter */}
       <div className="flex items-center gap-3">
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface border border-border flex-1 max-w-sm">
+        <div className="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-surface border border-border flex-1 max-w-sm focus-within:border-primary/50 transition-colors">
           <Search size={14} className="text-muted-foreground" />
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search node ID or project..." className="bg-transparent text-sm text-foreground outline-none w-full placeholder:text-muted-foreground" />
+          <input
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder="Search node ID or project..."
+            className="bg-transparent text-sm text-foreground outline-none w-full placeholder:text-muted-foreground/60"
+          />
         </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm" className="gap-2">
+              <SlidersHorizontal size={12} />
+              {statusFilter === 'All' ? 'All Statuses' : statusFilter}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            {statuses.map(s => (
+              <DropdownMenuItem
+                key={s}
+                onClick={() => setStatusFilter(s)}
+                className={cn(statusFilter === s && "bg-accent text-accent-foreground")}
+              >
+                {s}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
         <span className="text-xs text-muted-foreground ml-auto">{filtered.length} of 316 shown</span>
       </div>
 
@@ -88,7 +164,11 @@ export default function NodeManagementPage() {
               const sc = statusCfg[n.status];
               return (
                 <tr key={n.id} className="border-b border-border last:border-0 hover:bg-[rgba(255,255,255,0.02)] group">
-                  <td className="px-4 py-2.5 font-mono text-foreground">{n.id}</td>
+                  <td className="px-4 py-2.5 font-mono text-foreground">
+                    <Link to={`/partner/nodes/${n.id}`} className="hover:text-primary transition-colors underline-offset-4 hover:underline">
+                      {n.id}
+                    </Link>
+                  </td>
                   <td className="px-4 py-2.5 text-muted-foreground">{n.project}</td>
                   <td className="px-4 py-2.5 text-muted-foreground">{n.location}</td>
                   <td className="px-4 py-2.5"><span className="px-1.5 py-0.5 rounded-md bg-surface-3 text-[10px] text-muted-foreground">{n.type}</span></td>
@@ -111,8 +191,34 @@ export default function NodeManagementPage() {
                   </td>
                   <td className="px-4 py-2.5">
                     <div className="flex gap-1 opacity-60 group-hover:opacity-100 transition-opacity">
-                      <button className="p-1 rounded hover:bg-surface-2"><Activity size={14} className="text-muted-foreground" /></button>
-                      <button className="p-1 rounded hover:bg-surface-2"><Cpu size={14} className="text-muted-foreground" /></button>
+                      <Link to={`/partner/nodes/${n.id}`}>
+                        <button className="p-1.5 rounded hover:bg-surface-2 transition-colors" title="View Details">
+                          <Eye size={14} className="text-muted-foreground" />
+                        </button>
+                      </Link>
+                      <button
+                        className="p-1.5 rounded hover:bg-surface-2 transition-colors"
+                        title="View Logs"
+                        onClick={() => toast.info(`Fetching real-time logs for ${n.id}...`)}
+                      >
+                        <FileText size={14} className="text-muted-foreground" />
+                      </button>
+                      <button
+                        className="p-1.5 rounded hover:bg-surface-2 transition-colors"
+                        title="System Info"
+                        onClick={() => toast.loading(`Retrieving telemetry for ${n.id}...`, { duration: 1500 })}
+                      >
+                        <Cpu size={14} className="text-muted-foreground" />
+                      </button>
+                      <button
+                        className="p-1.5 rounded hover:bg-surface-2 transition-colors"
+                        title="Reboot Node"
+                        onClick={() => toast.warning(`Reboot command sent to ${n.id}. Connection will be lost temporarily.`, {
+                          icon: <RefreshCw size={14} className="animate-spin text-status-orange" />
+                        })}
+                      >
+                        <RefreshCw size={14} className="text-muted-foreground" />
+                      </button>
                     </div>
                   </td>
                 </tr>

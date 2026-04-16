@@ -17,6 +17,7 @@ import DashboardPage from "@/pages/partner/DashboardPage";
 import ProjectsListPage from "@/pages/partner/ProjectsListPage";
 import ProjectDetailPage from "@/pages/partner/ProjectDetailPage";
 import NodeManagementPage from "@/pages/partner/NodeManagementPage";
+import NodeDetailPage from "@/pages/partner/NodeDetailPage";
 import MonitoringPage from "@/pages/partner/MonitoringPage";
 import RewardsPage from "@/pages/partner/RewardsPage";
 import GovernancePage from "@/pages/partner/GovernancePage";
@@ -65,6 +66,7 @@ const App = () => (
               <Route path="projects" element={<ProjectsListPage />} />
               <Route path="projects/:id" element={<ProjectDetailPage />} />
               <Route path="nodes" element={<NodeManagementPage />} />
+              <Route path="nodes/:id" element={<NodeDetailPage />} />
               <Route path="monitoring" element={<MonitoringPage />} />
               <Route path="rewards" element={<RewardsPage />} />
               <Route path="territory-map" element={<TerritoryMapPage />} />

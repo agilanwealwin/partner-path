@@ -5,6 +5,7 @@ import {
   LayoutGrid, GitBranch, Wrench, BarChart3, FileText, Circle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 import { projects } from '@/data/mockData';
 import { cn } from '@/lib/utils';
 
@@ -41,14 +42,20 @@ export default function ProjectDetailPage() {
       </Link>
 
       {/* Hero Card */}
-      <div className="rounded-card p-6 relative overflow-hidden border-l-4 border-l-status-green" style={{ background: 'linear-gradient(135deg, #0d1525, #111827)' }}>
-        <div className="flex items-start justify-between">
+      <div className="rounded-card p-6 relative overflow-hidden border-l-4 border-l-status-green bg-surface shadow-surface border border-border">
+        {/* Subtle decorative elements */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-24 h-24 bg-status-orange/5 rounded-full -ml-12 -mb-12 blur-2xl" />
+
+        <div className="relative flex items-start justify-between">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-orange-soft flex items-center justify-center">
+            <div className="w-12 h-12 rounded-xl bg-orange-soft flex items-center justify-center border border-status-orange/10">
               <Sun size={24} className="text-status-orange" />
             </div>
             <div>
-              <h1 className="font-display font-bold text-2xl text-foreground">{project.name}</h1>
+              <h1 className="font-display font-bold text-2xl text-foreground">
+                <span className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">{project.name}</span>
+              </h1>
               <div className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
                 <MapPin size={12} /> {project.location}, {project.state} · India
               </div>
@@ -78,27 +85,48 @@ export default function ProjectDetailPage() {
         </div>
       </div>
 
-      {/* Lifecycle */}
-      <div className="rounded-card bg-surface p-5 shadow-surface">
-        <div className="flex items-center justify-between mb-4">
-          <span className="section-label">Project Lifecycle Tracker</span>
-          <div className="flex items-center gap-3 text-[9px] text-muted-foreground">
+      <div className="rounded-card bg-surface p-6 shadow-surface border border-border/50">
+        <div className="flex items-center justify-between mb-6">
+          <div className="space-y-1">
+            <span className="section-label">Project Lifecycle Tracker</span>
+            <p className="text-[10px] text-muted-foreground">Detailed progress from discovery to post-commissioning operations</p>
+          </div>
+          <div className="flex items-center gap-3 text-[9px] text-muted-foreground bg-surface-2 px-3 py-1 rounded-full">
             <span className="flex items-center gap-1"><CheckCircle2 size={8} className="text-status-green" /> Completed</span>
-            <span className="flex items-center gap-1"><Circle size={8} className="text-primary" /> Current</span>
+            <span className="flex items-center gap-1"><Circle size={8} className="text-primary fill-primary/20" /> Current</span>
             <span className="flex items-center gap-1"><Circle size={8} /> Pending</span>
           </div>
         </div>
-        <div className="flex items-start">
+
+        <div className="relative flex items-start justify-between px-2">
+          {/* Progress Line */}
+          <div className="absolute top-[11px] left-0 w-full h-0.5 bg-surface-3 -z-0" />
+          <div
+            className="absolute top-[11px] left-0 h-0.5 bg-primary transition-all duration-1000 -z-0"
+            style={{ width: `${(lifecycleSteps.filter(s => s.done).length - 1) * (100 / (lifecycleSteps.length - 1))}%` }}
+          />
+
           {lifecycleSteps.map((step, i) => (
-            <div key={i} className="flex-1 flex flex-col items-center text-center">
+            <div key={i} className="flex-1 flex flex-col items-center group relative z-10">
               <div className={cn(
-                "w-6 h-6 rounded-full flex items-center justify-center mb-1.5",
-                step.current ? 'bg-green-soft ring-2 ring-status-green/30' : step.done ? 'bg-green-soft' : 'bg-surface-3'
+                "w-6 h-6 rounded-full flex items-center justify-center mb-2.5 transition-all duration-300",
+                step.current ? 'bg-primary text-primary-foreground ring-4 ring-primary/20 scale-110' :
+                  step.done ? 'bg-status-green text-white' : 'bg-surface-3 text-muted-foreground'
               )}>
-                {step.done ? <CheckCircle2 size={10} className="text-status-green" /> : <Circle size={10} className="text-muted-foreground" />}
+                {step.done ? <CheckCircle2 size={12} /> : <Circle size={10} className={cn(step.current ? "fill-white" : "")} />}
               </div>
-              <p className="text-[9px] text-foreground leading-tight">{step.label}</p>
-              <p className="text-[8px] text-muted-foreground mt-0.5">{step.date}</p>
+              <div className="px-1">
+                <p className={cn(
+                  "text-[9px] leading-tight font-medium transition-colors",
+                  step.current ? "text-primary font-bold" : "text-foreground"
+                )}>{step.label}</p>
+                <p className="text-[8px] text-muted-foreground mt-1 font-mono">{step.date}</p>
+              </div>
+
+              {/* Tooltip-like shadow on hover */}
+              <div className="absolute -top-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                <div className="w-1 h-1 rounded-full bg-primary" />
+              </div>
             </div>
           ))}
         </div>
@@ -196,7 +224,7 @@ export default function ProjectDetailPage() {
               <div key={i} className="flex-1 flex flex-col items-center gap-1">
                 <span className="text-[8px] text-foreground font-mono">{v}</span>
                 <div className="w-full rounded-t-sm bg-primary/60" style={{ height: `${(v / 1.2) * 100}%` }} />
-                <span className="text-[8px] text-muted-foreground">{['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][i]}</span>
+                <span className="text-[8px] text-muted-foreground">{['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][i]}</span>
               </div>
             ))}
           </div>
@@ -210,7 +238,13 @@ export default function ProjectDetailPage() {
             {['DPR (Detailed Project Report)', 'Grid Interconnection Agreement', 'CEI Approval Certificate', 'Commissioning Report', 'O&M Contract'].map(doc => (
               <div key={doc} className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-surface-2 transition-colors">
                 <div className="flex items-center gap-2"><FileText size={14} className="text-muted-foreground" /><span className="text-[11px] text-foreground">{doc}</span></div>
-                <Button variant="ghost" size="xs">View</Button>
+                <Button
+                  variant="ghost"
+                  size="xs"
+                  onClick={() => toast.success(`Opening ${doc}...`)}
+                >
+                  View
+                </Button>
               </div>
             ))}
           </div>

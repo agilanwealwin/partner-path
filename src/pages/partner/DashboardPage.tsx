@@ -1,11 +1,18 @@
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
 import {
   FolderKanban, Zap, Radio, Activity, Coins, TrendingUp, TrendingDown,
   SlidersHorizontal, Plus, Sun, Wind, CheckCircle2, AlertTriangle,
-  Clock, Eye
+  Clock, Eye, Globe
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { projects, partnerInfo, type Project } from '@/data/mockData';
 import { cn } from '@/lib/utils';
 
@@ -34,12 +41,56 @@ const nodeHealthItems = [
 ];
 
 export default function DashboardPage() {
+  const navigate = useNavigate();
+  const [statusFilter, setStatusFilter] = useState<string>('All');
+  const [territoryFilter, setTerritoryFilter] = useState<string>('All');
+
+  const territories = [
+    'All',
+    'Uttar Pradesh Territory 1',
+    'Uttar Pradesh Territory 2',
+    'Rajasthan Territory 4',
+    'Gujarat Territory 3',
+    'Andhra Pradesh Territory 5',
+    'Karnataka Territory 1',
+    'Tamil Nadu Territory 2'
+  ];
+
+  const filteredProjects = projects.filter(p =>
+    statusFilter === 'All' ? true : p.status === statusFilter
+  );
+
+  const statuses = ['All', ...Object.keys(projectStatusConfig)];
+
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="font-display font-bold text-2xl text-foreground">Partner Dashboard</h1>
-        <p className="text-sm text-muted-foreground mt-1">Portfolio overview — Q1 2025 · Synced with DeLEN Protocol v2.4</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="font-display font-bold text-2xl text-foreground">Partner Dashboard</h1>
+          <p className="text-sm text-muted-foreground mt-1">Portfolio overview — Q1 2025 · Synced with DeLEN Protocol v2.4</p>
+        </div>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm" className="gap-2 bg-surface shadow-sm border-border/50 hover:border-primary/30 transition-all">
+              <Globe size={14} className="text-primary" />
+              <span className="text-xs font-medium">{territoryFilter === 'All' ? 'Global View' : territoryFilter}</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            <div className="px-2 py-1.5 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Select Territory</div>
+            {territories.map(t => (
+              <DropdownMenuItem
+                key={t}
+                onClick={() => setTerritoryFilter(t)}
+                className={cn(territoryFilter === t && "bg-accent text-accent-foreground")}
+              >
+                {t === 'All' ? 'All Territories' : t}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       <div className="flex gap-6">
@@ -85,12 +136,29 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between mb-4">
               <p className="section-label">Project Portfolio</p>
               <div className="flex gap-2">
-                <Button variant="outline" size="xs"><SlidersHorizontal size={12} /> Filter</Button>
-                <Button size="xs"><Plus size={12} /> Add Project</Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="xs">
+                      <SlidersHorizontal size={12} /> {statusFilter === 'All' ? 'Filter' : statusFilter}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-40">
+                    {statuses.map(status => (
+                      <DropdownMenuItem
+                        key={status}
+                        onClick={() => setStatusFilter(status)}
+                        className={cn(statusFilter === status && "bg-accent text-accent-foreground")}
+                      >
+                        {status}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                <Button variant="link" size="xs" onClick={() => navigate('/partner/projects')} className="text-primary hover:text-primary/80">View All</Button>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3">
-              {projects.slice(0, 4).map((p) => {
+              {filteredProjects.slice(0, 4).map((p) => {
                 const sc = projectStatusConfig[p.status];
                 const Icon = iconMap[p.icon];
                 return (
@@ -176,14 +244,29 @@ export default function DashboardPage() {
                 </div>
               ))}
             </div>
-            <button className="text-[11px] text-primary hover:underline mt-3 block">View All Nodes →</button>
+            <button
+              onClick={() => navigate('/partner/nodes')}
+              className="text-[11px] text-primary hover:underline mt-3 block"
+            >
+              View All Nodes →
+            </button>
           </div>
 
           {/* Maintenance Alerts */}
           <div className="rounded-card bg-surface p-4 shadow-surface">
             <div className="flex items-center justify-between mb-3">
               <span className="text-xs font-medium text-foreground">Maintenance Alerts</span>
-              <span className="font-mono text-[10px] px-1.5 py-0.5 rounded-md bg-red-soft text-status-red">3</span>
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-[10px] px-1.5 py-0.5 rounded-md bg-red-soft text-status-red">3</span>
+                <Button
+                  variant="link"
+                  size="xs"
+                  onClick={() => navigate('/partner/monitoring')}
+                  className="text-primary p-0 h-auto text-[10px]"
+                >
+                  view all
+                </Button>
+              </div>
             </div>
             <div className="space-y-2.5">
               {[

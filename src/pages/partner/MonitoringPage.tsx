@@ -1,8 +1,14 @@
 import React from 'react';
 import {
   CheckCircle2, AlertTriangle, XCircle, Clock, Activity, Wrench,
-  Calendar, Bell
+  Calendar, Bell, Globe
 } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -36,6 +42,18 @@ const maintenanceSchedule = [
 ];
 
 export default function MonitoringPage() {
+  const [territoryFilter, setTerritoryFilter] = React.useState('All');
+
+  const territories = [
+    'All',
+    'Uttar Pradesh Territory 1',
+    'Uttar Pradesh Territory 2',
+    'Rajasthan Territory 4',
+    'Gujarat Territory 3',
+    'Andhra Pradesh Territory 5',
+    'Karnataka Territory 1',
+    'Tamil Nadu Territory 2'
+  ];
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-start justify-between">
@@ -43,7 +61,29 @@ export default function MonitoringPage() {
           <h1 className="font-display font-bold text-2xl text-foreground">O&M Monitoring</h1>
           <p className="text-sm text-muted-foreground mt-1">Operations and maintenance overview · All projects</p>
         </div>
-        <Button variant="outline" size="sm"><Calendar size={14} /> Date Range</Button>
+        <div className="flex gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="gap-2 bg-surface shadow-sm border-border/50 hover:border-primary/30 transition-all">
+                <Globe size={14} className="text-primary" />
+                <span className="text-xs font-medium">{territoryFilter === 'All' ? 'Global View' : territoryFilter}</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <div className="px-2 py-1.5 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Select Territory</div>
+              {territories.map(t => (
+                <DropdownMenuItem
+                  key={t}
+                  onClick={() => setTerritoryFilter(t)}
+                  className={cn(territoryFilter === t && "bg-accent text-accent-foreground")}
+                >
+                  {t === 'All' ? 'All Territories' : t}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Button variant="outline" size="sm"><Calendar size={14} /> Date Range</Button>
+        </div>
       </div>
 
       {/* Live Banner */}
@@ -76,7 +116,7 @@ export default function MonitoringPage() {
                 <td className="px-4 py-2.5">
                   <span className={cn("px-1.5 py-0.5 rounded-md text-[10px]",
                     p.status === 'Normal' ? 'bg-green-soft text-status-green' :
-                    p.status === 'Alert' ? 'bg-orange-soft text-status-orange' : 'bg-surface-3 text-muted-foreground'
+                      p.status === 'Alert' ? 'bg-orange-soft text-status-orange' : 'bg-surface-3 text-muted-foreground'
                   )}>{p.status}</span>
                 </td>
               </tr>
