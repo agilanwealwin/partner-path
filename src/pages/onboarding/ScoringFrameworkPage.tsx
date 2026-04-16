@@ -69,47 +69,47 @@ export default function ScoringFrameworkPage() {
     const navigate = useNavigate();
 
     return (
-        <div className="p-10 max-w-[1200px] mx-auto space-y-16 bg-background">
+        <div className="px-4 py-8 md:p-10 max-w-[1200px] mx-auto space-y-10 md:space-y-16 bg-background">
             {/* Header */}
-            <div className="flex items-end justify-between border-b border-border pb-8">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-border pb-8 gap-6">
                 <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                        <span className="px-2 py-0.5 rounded bg-surface-3 text-[10px] font-mono text-muted-foreground border border-border tracking-tighter">REF: DLN / PQ / 2026</span>
-                        <h1 className="font-display font-bold text-3xl text-foreground tracking-tight">Scoring Framework</h1>
+                    <div className="flex flex-wrap items-center gap-2">
+                        <span className="px-2 py-0.5 rounded bg-surface-3 text-[10px] font-mono text-muted-foreground border border-border tracking-tighter shrink-0">REF: DLN / PQ / 2026</span>
+                        <h1 className="font-display font-bold text-2xl sm:text-3xl text-foreground tracking-tight">Scoring Framework</h1>
                     </div>
                     <p className="text-sm text-muted-foreground font-medium">Transparency in How DeLEN Evaluates Infrastructure Partners</p>
                 </div>
-                <Button variant="outline" size="sm" className="h-10 px-6 rounded-xl border-border bg-surface-2 hover:bg-surface-3 transition-colors font-bold" onClick={() => navigate(-1)}>
+                <Button variant="outline" size="sm" className="h-10 px-6 rounded-xl border-border bg-surface-2 hover:bg-surface-3 transition-colors font-bold w-full sm:w-auto shrink-0" onClick={() => navigate(-1)}>
                     <ArrowLeft size={14} className="mr-2 opacity-50" /> Back to Assessment
                 </Button>
             </div>
 
             {/* Hero */}
-            <div className="rounded-[2.5rem] p-12 relative overflow-hidden hero-gradient border border-border shadow-2xl shadow-primary/5 group">
+            <div className="rounded-3xl lg:rounded-[2.5rem] p-6 sm:p-12 relative overflow-hidden hero-gradient border border-border shadow-2xl shadow-primary/5 group">
                 <div className="absolute inset-0 hero-glow-accent opacity-40 group-hover:opacity-60 transition-opacity duration-1000" />
-                <div className="absolute top-0 right-0 p-12 opacity-[0.03] select-none pointer-events-none">
+                <div className="absolute top-0 right-0 p-12 opacity-[0.03] select-none pointer-events-none hidden lg:block">
                     <Scale size={320} className="text-foreground" />
                 </div>
 
-                <div className="relative z-10 max-w-2xl space-y-8">
+                <div className="relative z-10 max-w-2xl space-y-6 sm:space-y-8">
                     <div className="space-y-3">
-                        <p className="text-[11px] font-black tracking-[0.3em] text-primary uppercase">EVALUATION METHODOLOGY</p>
-                        <h2 className="font-display font-black text-5xl text-foreground leading-[1.1] tracking-tight">The 100-Point<br />Infrastructure Audit</h2>
+                        <p className="text-[10px] sm:text-[11px] font-black tracking-[0.2em] sm:tracking-[0.3em] text-primary uppercase">EVALUATION METHODOLOGY</p>
+                        <h2 className="font-display font-black text-3xl sm:text-4xl md:text-5xl text-foreground leading-[1.1] tracking-tight">The 100-Point<br />Infrastructure Audit</h2>
                     </div>
 
-                    <p className="text-lg text-muted-foreground leading-relaxed opacity-90 max-w-xl">
+                    <p className="text-base sm:text-lg text-muted-foreground leading-relaxed opacity-90 max-w-xl">
                         A multi-dimensional scoring engine ensures the highest quality of physical grid infrastructure. Scores are algorithmically weighted based on your submissions.
                     </p>
 
-                    <div className="flex items-center gap-8 pt-4">
+                    <div className="grid grid-cols-3 gap-4 sm:gap-8 pt-4">
                         {[
                             { label: 'Technical Capacity', val: '45%' },
                             { label: 'Financial Health', val: '30%' },
                             { label: 'Operational Scale', val: '25%' }
                         ].map(item => (
-                            <div key={item.label} className="space-y-1">
-                                <p className="text-4xl font-display font-black text-foreground">{item.val}</p>
-                                <p className="text-[10px] text-muted-foreground font-black uppercase tracking-widest opacity-60">{item.label}</p>
+                            <div key={item.label} className="space-y-0.5 sm:space-y-1">
+                                <p className="text-3xl sm:text-4xl font-display font-black text-foreground">{item.val}</p>
+                                <p className="text-[9px] sm:text-[10px] text-muted-foreground font-black uppercase tracking-widest opacity-60 leading-tight">{item.label}</p>
                             </div>
                         ))}
                     </div>
@@ -154,20 +154,20 @@ export default function ScoringFrameworkPage() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {tiers.map((tier, i) => {
                         return (
                             <div
                                 key={tier.name}
                                 className={cn(
-                                    "relative rounded-3xl p-10 border-2 transition-all duration-500 flex flex-col group overflow-hidden",
+                                    "relative rounded-3xl p-6 sm:p-10 border-2 transition-all duration-500 flex flex-col group overflow-hidden",
                                     tier.recommended
-                                        ? "bg-surface border-primary shadow-2xl shadow-primary/10 -translate-y-2"
+                                        ? "bg-surface border-primary shadow-2xl shadow-primary/10 lg:-translate-y-2"
                                         : "bg-surface-2/30 border-border shadow-sm"
                                 )}
                             >
                                 {/* Background Number */}
-                                <div className="absolute -bottom-12 -right-6 text-[12rem] font-display font-black text-foreground/[0.03] pointer-events-none group-hover:text-foreground/[0.06] transition-all duration-700 select-none">
+                                <div className="absolute -bottom-12 -right-6 text-[10rem] sm:text-[12rem] font-display font-black text-foreground/[0.03] pointer-events-none group-hover:text-foreground/[0.06] transition-all duration-700 select-none">
                                     {i + 1}
                                 </div>
 
@@ -178,7 +178,7 @@ export default function ScoringFrameworkPage() {
                                 )}
 
                                 <div className={cn(
-                                    "text-[10px] font-bold tracking-[0.25em] px-3.5 py-2 rounded-lg border-2 uppercase mb-12 w-fit transition-all text-center",
+                                    "text-[10px] font-bold tracking-[0.2em] sm:tracking-[0.25em] px-3.5 py-2 rounded-lg border-2 uppercase mb-8 sm:mb-12 w-fit transition-all text-center",
                                     tier.recommended
                                         ? "border-primary text-primary bg-primary/5 shadow-[0_0_15px_rgba(var(--primary),0.05)]"
                                         : "border-border text-muted-foreground opacity-70"
@@ -186,11 +186,11 @@ export default function ScoringFrameworkPage() {
                                     Level 0{i + 1}
                                 </div>
 
-                                <div className="space-y-1 mb-10">
+                                <div className="space-y-1 mb-8 sm:mb-10">
                                     <p className={cn("text-[11px] font-black tracking-[0.25em] uppercase mb-4", tier.color)}>{tier.name}</p>
-                                    <div className="h-0.5 w-12 bg-border group-hover:w-full transition-all duration-700 my-8" />
+                                    <div className="h-0.5 w-12 bg-border group-hover:w-full transition-all duration-700 my-6 sm:my-8" />
                                     <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest opacity-60 mb-2">Benchmark Score</p>
-                                    <p className={cn("text-4xl font-display font-black tracking-tight", tier.recommended ? "text-foreground" : "text-foreground/80")}>{tier.score} PTS</p>
+                                    <p className={cn("text-3xl sm:text-4xl font-display font-black tracking-tight", tier.recommended ? "text-foreground" : "text-foreground/80")}>{tier.score} PTS</p>
                                 </div>
 
                                 <div className="space-y-4 flex-1 relative z-10">
@@ -208,13 +208,13 @@ export default function ScoringFrameworkPage() {
             </div>
 
             {/* Footer Alert Card */}
-            <div className="rounded-[2rem] p-8 bg-surface-2 border border-border flex items-start gap-6 shadow-sm">
+            <div className="rounded-[1.5rem] lg:rounded-[2rem] p-6 sm:p-8 bg-surface-2 border border-border flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 shadow-sm">
                 <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
                     <Info size={24} className="text-primary" />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2 text-center sm:text-left">
                     <h4 className="text-sm font-black text-foreground uppercase tracking-widest">Protocol Governance Note</h4>
-                    <p className="text-[13px] text-muted-foreground leading-relaxed italic opacity-80">
+                    <p className="text-[12px] sm:text-[13px] text-muted-foreground leading-relaxed italic opacity-80">
                         The scoring framework is audited quarterly by the DeLEN Governance Council to ensure fairness and alignment with the protocol's infrastructure requirements.
                         Existing partners can request a re-evaluation once per year to qualify for a higher tier.
                     </p>
@@ -222,8 +222,8 @@ export default function ScoringFrameworkPage() {
             </div>
 
             {/* Action Footer */}
-            <div className="flex flex-col items-center gap-8 pt-12 border-t border-border mt-16 pb-20">
-                <Button size="lg" className="h-16 px-14 bg-primary hover:bg-primary/90 text-white rounded-2xl text-base font-black shadow-2xl shadow-primary/30 group transition-all hover:scale-[1.05]" onClick={() => navigate(-1)}>
+            <div className="flex flex-col items-center gap-8 pt-12 border-t border-border mt-8 sm:mt-16 pb-20">
+                <Button size="lg" className="h-16 w-full sm:w-auto px-6 sm:px-14 bg-primary hover:bg-primary/90 text-white rounded-2xl text-base font-black shadow-2xl shadow-primary/30 group transition-all md:hover:scale-[1.05]" onClick={() => navigate(-1)}>
                     Return to Assessment <ArrowUpRight size={20} className="ml-3 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </Button>
             </div>
