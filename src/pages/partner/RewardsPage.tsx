@@ -44,9 +44,9 @@ export default function RewardsPage() {
   const [tab, setTab] = useState<'overview' | 'history'>('overview');
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 md:p-6 space-y-4 md:space-y-6">
       {/* Header */}
-      <div className="flex items-start justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
         <div>
           <h1 className="font-display font-bold text-2xl text-foreground">Rewards</h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -60,7 +60,7 @@ export default function RewardsPage() {
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <div className="rounded-card bg-surface p-5 shadow-surface border border-status-orange/10 col-span-1">
           <div className="flex items-center gap-2 mb-2">
             <Coins size={16} className="text-status-orange" />
@@ -164,12 +164,12 @@ export default function RewardsPage() {
       </div>
 
       {/* Rewards by Project — updated columns */}
-      <div className="rounded-card bg-surface shadow-surface overflow-hidden">
+      <div className="rounded-card bg-surface shadow-surface overflow-x-auto">
         <div className="px-5 py-3 border-b border-border flex items-center justify-between">
           <span className="section-label">Rewards by Node Cluster</span>
           <span className="text-[10px] text-muted-foreground">Performance-weighted · weekly emission</span>
         </div>
-        <table className="w-full text-[12px]">
+        <table className="w-full text-[12px] min-w-[700px]">
           <thead>
             <tr className="border-b border-border bg-surface/50">
               {['Project / Site', 'Nodes', 'Uptime', 'Data Quality', 'Energy Score', 'Weekly DLN', 'YTD DLN', '% Pool'].map(h => (
@@ -255,12 +255,12 @@ export default function RewardsPage() {
       </div>
 
       {/* Distribution History — weekly */}
-      <div className="rounded-card bg-surface shadow-surface overflow-hidden">
+      <div className="rounded-card bg-surface shadow-surface overflow-x-auto">
         <div className="px-5 py-3 border-b border-border flex items-center justify-between">
           <span className="section-label">Distribution History</span>
           <span className="text-[10px] text-muted-foreground">Weekly on-chain distribution · $DLN token</span>
         </div>
-        <table className="w-full text-[12px]">
+        <table className="w-full text-[12px] min-w-[600px]">
           <thead>
             <tr className="border-b border-border bg-surface/50">
               {['Date', 'Amount (DLN)', 'Basis', 'TX Hash', 'Status'].map(h => (

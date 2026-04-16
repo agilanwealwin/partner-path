@@ -54,13 +54,13 @@ export default function ProjectsListPage() {
   };
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-start justify-between">
+    <div className="p-4 md:p-6 space-y-4 md:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
         <div>
           <h1 className="font-display font-bold text-2xl text-foreground">Projects</h1>
           <p className="text-sm text-muted-foreground mt-1">14 projects across 6 states · DeLEN Protocol v2.4</p>
         </div>
-        <div className="flex gap-3 items-center">
+        <div className="flex gap-2 sm:gap-3 items-center flex-wrap">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="gap-2 bg-surface shadow-sm border-border/50 hover:border-primary/30 transition-all">
@@ -85,7 +85,7 @@ export default function ProjectsListPage() {
         </div>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
         <div className="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-surface border border-border flex-1 max-w-sm focus-within:border-primary/50 transition-colors">
           <Search size={14} className="text-muted-foreground" />
           <input
@@ -116,7 +116,7 @@ export default function ProjectsListPage() {
         </DropdownMenu>
       </div>
 
-      <div className="rounded-card border border-border overflow-hidden">
+      <div className="rounded-card border border-border overflow-x-auto">
         <table className="w-full text-[12px]">
           <thead>
             <tr className="border-b border-border bg-surface">
