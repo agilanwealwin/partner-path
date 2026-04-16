@@ -19,8 +19,8 @@ export default function NotificationsPage() {
   const filtered = filter === 'all' ? notifications : filter === 'unread' ? notifications.filter(n => !n.read) : notifications.filter(n => n.type === filter);
 
   return (
-    <div className="p-6 max-w-[800px] mx-auto space-y-6">
-      <div className="flex items-start justify-between">
+    <div className="p-4 md:p-6 max-w-[800px] mx-auto space-y-4 md:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
         <div>
           <h1 className="font-display font-bold text-2xl text-foreground">Notifications</h1>
           <p className="text-sm text-muted-foreground mt-1">{unread} unread notifications</p>
@@ -28,7 +28,7 @@ export default function NotificationsPage() {
         <Button variant="outline" size="sm">Mark All as Read</Button>
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-wrap">
         {['all', 'unread', 'Alert', 'Reward', 'Territory', 'Node'].map(f => (
           <button key={f} onClick={() => setFilter(f)} className={cn(
             "px-3 py-1.5 rounded-lg text-[11px] capitalize transition-colors",

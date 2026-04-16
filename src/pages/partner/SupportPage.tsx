@@ -10,13 +10,13 @@ const tickets = [
 
 export default function SupportPage() {
   return (
-    <div className="p-6 max-w-[900px] mx-auto space-y-6">
+    <div className="p-4 md:p-6 max-w-[900px] mx-auto space-y-4 md:space-y-6">
       <div>
         <h1 className="font-display font-bold text-2xl text-foreground">Protocol Support</h1>
         <p className="text-sm text-muted-foreground mt-1">Get help with your DeLEN partner account</p>
       </div>
 
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div className="rounded-card bg-surface p-5 shadow-surface text-center">
           <Mail size={20} className="text-primary mx-auto mb-2" />
           <p className="text-sm font-medium text-foreground">Email Support</p>
@@ -42,7 +42,7 @@ export default function SupportPage() {
           <span className="section-label">Recent Support Tickets</span>
           <Button size="xs"><Ticket size={12} /> New Ticket</Button>
         </div>
-        <div className="rounded-card border border-border overflow-hidden">
+        <div className="rounded-card border border-border overflow-x-auto">
           <table className="w-full text-[12px]">
             <thead>
               <tr className="border-b border-border bg-surface">
@@ -69,7 +69,7 @@ export default function SupportPage() {
 
       <div>
         <span className="section-label mb-3 block">Resources</span>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {[
             { title: 'Partner Handbook', desc: 'Complete guide to the DeLEN partner programme' },
             { title: 'API Documentation', desc: 'Technical docs for DeLEN protocol integration' },

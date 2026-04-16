@@ -62,8 +62,8 @@ export default function NodeDetailPage() {
     };
 
     return (
-        <div className="p-6 space-y-6">
-            <div className="flex items-center justify-between">
+        <div className="p-4 md:p-6 space-y-4 md:space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-4">
                     <Link to="/partner/nodes">
                         <Button variant="ghost" size="icon" className="rounded-full w-8 h-8">
@@ -90,7 +90,7 @@ export default function NodeDetailPage() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 {[
                     { label: 'Uptime', value: node.uptime, icon: Clock, color: 'text-primary' },
                     { label: 'Latency', value: node.latency, icon: Activity, color: 'text-status-green' },
@@ -107,8 +107,8 @@ export default function NodeDetailPage() {
                 ))}
             </div>
 
-            <div className="grid grid-cols-3 gap-6">
-                <div className="col-span-2 space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
+                <div className="lg:col-span-2 space-y-4 md:space-y-6">
                     {/* Real-time Telemetry (Simulation) */}
                     <div className="rounded-card bg-surface p-5 border border-border shadow-surface">
                         <div className="flex items-center justify-between mb-6">
@@ -117,7 +117,7 @@ export default function NodeDetailPage() {
                                 <span className="flex items-center gap-1"><div className="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse" /> Live Stream</span>
                             </div>
                         </div>
-                        <div className="grid grid-cols-2 gap-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                             <div className="space-y-4">
                                 <div className="flex justify-between items-end">
                                     <div className="space-y-1">
@@ -216,7 +216,7 @@ export default function NodeDetailPage() {
                     </div>
                 </div>
 
-                <div className="space-y-6">
+                <div className="space-y-4 md:space-y-6">
                     {/* Metadata Card */}
                     <div className="rounded-card bg-surface p-5 border border-border shadow-surface">
                         <span className="section-label mb-4 block">Hardware Specifications</span>
